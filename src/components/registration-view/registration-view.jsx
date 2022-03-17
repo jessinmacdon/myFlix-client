@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 export function RegistrationView(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [birthday, setBirthday] = useState('');
+
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(username, password, email, birthday);
+        /* Sends request to the server for authentication */
 
         props.onRegistration(username);
     };
@@ -28,10 +30,6 @@ export function RegistrationView(props) {
                 Email:
                 <input type="email" value={email} onChange={e => setEmail(e.target.value)} />
             </label>
-            <label>
-                Birthday:
-                <input type="date" value={birthday} onChange={e => setBirthday(e.target.value)} />
-            </label>
             <button type="submit" onClick={handleSubmit}>Submit</button>
         </form>
     );
@@ -39,4 +37,4 @@ export function RegistrationView(props) {
 
 RegistrationView.propTypes = {
     onRegistration: PropTypes.func.isRequired,
-};
+}; 
