@@ -6,7 +6,7 @@ import MainView from './components/main-view/main-view';
 import './index.scss';
 
 //Main component
-class MyFlixApplication extends React.Component {
+class myFlixApplication extends React.Component {
     render() {
         return (
             <MainView />
@@ -18,4 +18,4 @@ class MyFlixApplication extends React.Component {
 const container = document.getElementsByClassName('app-container')[0];
 
 //React renders app in root DOM element
-ReactDOM.render(React.createElement(MyFlixApplication), container);
+ReactDOM.render(React.createElement(myFlixApplication), container);
