@@ -25407,7 +25407,8 @@ class MovieView extends _reactDefault.default.Component {
                     className: "movie-poster",
                     children: /*#__PURE__*/ _jsxDevRuntime.jsxDEV("img", {
                         src: movie.ImagePath,
-                        crossOrigin: "anonymous"
+                        crossOrigin: "anonymous",
+                        className: "movie-image"
                     }, void 0, false, {
                         fileName: "src/components/movie-view/movie-view.jsx",
                         lineNumber: 15,

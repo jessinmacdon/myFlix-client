@@ -6,7 +6,9 @@
 
 
 
-
+.movie-image {
+  width: 150px;
+}
 
 .my-flix {
   color: #4682b4;
