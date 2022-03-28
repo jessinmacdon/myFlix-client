@@ -1,7 +1,6 @@
 import React from 'react';
-
 import axios from 'axios';
-
+import { Container, Row, Col } from 'react-bootstrap';
 import '../main-view/main-view.scss';
 
 import { LoginView } from '../login-view/login-view';
@@ -66,15 +65,23 @@ export class MainView extends React.Component {
         if (movies.length === 0) return <div className="main-view" />;
 
         return (
-            <div className="main-view">
-                {/*If the state of `selectedMovie` is not null, that selected movie will be returned otherwise, all *movies will be returned*/}
-                {selectedMovie
-                    ? <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }} />
-                    : movies.map(movie => (
-                        <MovieCard key={movie._id} movie={movie} onMovieClick={(newSelectedMovie) => { this.setSelectedMovie(newSelectedMovie) }} />
-                    ))
-                }
-            </div>
+            <Container fluid style={{ padding: 0 }}>
+                <Row className="main-view xs={auto}">
+                    {/*If the state of `selectedMovie` is not null, that selected movie will be returned otherwise, all *movies will be returned*/}
+                    {selectedMovie
+                        ? (
+                            <Col md={8} sm={10} xs={10} lg={10}>
+                                <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }} />
+                            </Col>
+                        )
+                        : movies.map(movie => (
+                            <Col md={6} sm={10} lg={3} xs={{ span: 10 }}>
+                                <MovieCard key={movie._id} movie={movie} onMovieClick={(newSelectedMovie) => { this.setSelectedMovie(newSelectedMovie) }} />
+                            </Col>
+                        ))
+                    }
+                </Row>
+            </Container>
         );
     }
 

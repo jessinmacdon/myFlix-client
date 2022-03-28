@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-
 import PropTypes from 'prop-types';
-
+import { Form, Button, Container, Row, Col, Card, CardGroup, FormGroup } from 'react-bootstrap';
 import '../login-view/login-view.scss';
+
 
 // Create LoginView as function component using Hooks
 export function LoginView(props) {
@@ -24,22 +24,54 @@ export function LoginView(props) {
     // Listening to changes on input and then updating the respective states
 
     return (
-        <form>
-            <label>
-                Username:
-                <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
-            </label>
-            <label>
-                Password:
-                <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
-            </label>
-            <button type="submit" onClick={handleSubmit}>Submit</button>
-            <button type="button">New? Register</button>
-        </form>
+        <Container id="login-container" fluid>
+            <Row>
+                <Col>
+                    <CardGroup>
+                        <Card id="loginCard" style={{ marginTop: 100, marginBottom: 50, width: 50 }}>
+                            <Card.Body>
+                                <Card.Title>Please Login</Card.Title>
+                                <Form>
+                                    <FormGroup className="mb-3" controlId="formGroupUsername">
+                                        <Form.Label>Username:</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            value={username}
+                                            onChange={e => setUsername(e.target.value)}
+                                            placeholder="Username" />
+                                    </FormGroup>
+                                    <FormGroup className="mb-3" controlId="formGroupPassword">
+                                        <Form.Label>Password:</Form.Label>
+                                        <Form.Control
+                                            type="password"
+                                            value={password}
+                                            onChange={e => setPassword(e.target.value)}
+                                            placeholder="Password" />
+                                    </FormGroup>
+                                    <div>
+                                        <Button className="ml-3" id="login-btn" type="submit" onClick={handleSubmit} variant="outline-success">
+                                            Submit
+                                        </Button>
+                                        <Button className="ml-3" type="button" variant="outline-secondary">
+                                            Create Account
+                                        </Button>
+                                    </div>
+                                </Form>
+                            </Card.Body>
+                        </Card>
+                    </CardGroup>
+                </Col>
+            </Row>
+        </Container >
     );
 
 }
 
 LoginView.propTypes = {
-    onLoggedIn: PropTypes.func.isRequired
+    user: PropTypes.shape({
+        username: PropTypes.string.isRequired,
+        password: PropTypes.string.isRequired
+    }),
+    onLoggedIn: PropTypes.func.isRequired,
 };
+
