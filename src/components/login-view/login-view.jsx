@@ -48,14 +48,12 @@ export function LoginView(props) {
                                             onChange={e => setPassword(e.target.value)}
                                             placeholder="Password" />
                                     </FormGroup>
-                                    <div>
-                                        <Button className="ml-3" id="login-btn" type="submit" onClick={handleSubmit} variant="outline-success">
-                                            Submit
-                                        </Button>
-                                        <Button className="ml-3" type="button" variant="outline-secondary">
-                                            Create Account
-                                        </Button>
-                                    </div>
+                                    <Button className="ml-3" id="login-btn" type="submit" onClick={handleSubmit} variant="outline-success">
+                                        Submit
+                                    </Button>
+                                    <Button className="ml-3" type="button" variant="outline-secondary">
+                                        Create Account
+                                    </Button>
                                 </Form>
                             </Card.Body>
                         </Card>

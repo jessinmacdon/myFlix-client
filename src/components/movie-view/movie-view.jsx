@@ -10,18 +10,20 @@ export class MovieView extends React.Component {
 
         return (
             <Container fluid className="movieViewContainer">
-                <Row >
-                    <Col>
+                <Row style={{ padding: '0', marginTop: 20, marginBottom: 20 }} >
+                    <Col lg={12} md={10} sm={12} xs={12}>
                         <Card className="movie-view">
                             <Card.Body className="">
-                                <Card.Img src={movie.ImagePath} crossOrigin="anonymous" className="movie-image mb-3 align-center ml-10 mr-10" />
+                                <Card.Img src={movie.ImagePath} className="movie-image mb-3 align-center ml-10 mr-10" />
                                 <Card.Title className="movie-title">
                                     <span className="label">Title: </span>
                                     <span className="value">{movie.Title}</span>
                                 </Card.Title>
                                 <Card.Text className="movie-description">
                                     <span className="label">Description: </span><br />
-                                    <span className="value">{movie.Description}</span>
+                                    <span className="value">
+                                        {movie.Description}
+                                    </span>
                                 </Card.Text>
                                 <Card.Text className="movie-genre">
                                     <span className="label">Genre: </span>

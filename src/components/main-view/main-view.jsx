@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Navbar, Nav } from 'react-bootstrap';
 import '../main-view/main-view.scss';
 
 import { LoginView } from '../login-view/login-view';
@@ -66,22 +66,36 @@ export class MainView extends React.Component {
 
         return (
             <Container fluid style={{ padding: 0 }}>
-                <Row className="main-view xs={auto}">
+                <Navbar id="navbar" fixed="top" bg="danger" expand="lg" collapseOnSelect>
+                    <Container id="navbar-container">
+                        <Navbar.Brand id="navbar-brand" href="#">MYFLIX</Navbar.Brand>
+                        <Navbar.Toggle />
+                        <Navbar.Collapse>
+                            <Nav id="nav" className="me-auto">
+                                <Nav.Link id="nav-link" href="#home">Movies</Nav.Link>
+                                <Nav.Link id="nav-link" href="#pricing">TV Series</Nav.Link>
+                                <Nav.Link id="nav-link" href="#features">Favourites</Nav.Link>
+                                <Nav.Link id="nav-link" href="#pricing">Register</Nav.Link>
+                            </Nav>
+                        </Navbar.Collapse>
+                    </Container>
+                </Navbar>
+                <Row className="main-view xs={auto}" style={{ marginTop: 60, marginButton: 30 }}>
                     {/*If the state of `selectedMovie` is not null, that selected movie will be returned otherwise, all *movies will be returned*/}
                     {selectedMovie
                         ? (
-                            <Col md={8} sm={10} xs={10} lg={10}>
+                            <Col md={12} sm={12} xs={12} lg={12}>
                                 <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }} />
                             </Col>
                         )
                         : movies.map(movie => (
-                            <Col md={6} sm={10} lg={3} xs={{ span: 10 }}>
+                            <Col md={6} sm={12} lg={3} xs={{ span: 12 }}>
                                 <MovieCard key={movie._id} movie={movie} onMovieClick={(newSelectedMovie) => { this.setSelectedMovie(newSelectedMovie) }} />
                             </Col>
                         ))
                     }
                 </Row>
-            </Container>
+            </Container >
         );
     }
 
