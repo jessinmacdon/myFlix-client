@@ -23,6 +23,9 @@ export class MainView extends React.Component {
     componentDidMount() {
         axios.get('https://macdon-myflix.herokuapp.com/movies') //https://macdon-myflix.herokuapp.com/movies //http://localhost:8080/movies
             .then(response => {
+                headers: { Authorization: 'Bearer ${token}' }
+            })
+            .then(response => {
                 this.setState({
                     movies: response.data
                 });
@@ -42,10 +45,14 @@ export class MainView extends React.Component {
 
     /* When a user successfully logs in, this function updates the `user` property in state to that *particular user*/
 
-    onLoggedIn(user) {
+    onLoggedIn(authData) {
+        console.log(authData);
         this.setState({
-            user
+            user: authData.user.Username
         });
+        localStorage.setItem('token', authData.token);
+        localStorage.setItem('user', autData.user.Username);
+        this.getMovies(authData.token);
     }
 
     //signUp - user resgistration

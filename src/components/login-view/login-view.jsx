@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button, Container, Row, Col, Card, CardGroup, FormGroup } from 'react-bootstrap';
 import '../login-view/login-view.scss';
+import axios from 'axios';
 
 
 // Create LoginView as function component using Hooks
@@ -17,8 +18,18 @@ export function LoginView(props) {
 
         /* Send a request to the server for authentication */
         /* then call this.props.onLoggedIn(username) */
-        props.onLoggedIn(username);
-    }
+        axios.post('https://macdon-myflix.herokuapp.com/login', {
+            Username: username,
+            Password: password
+        })
+            .then(response => {
+                const data = response.data;
+                props.onLoggedIn(data);
+            })
+            .catch(e => {
+                console.log('no such user')
+            });
+    };
 
     // Return a login form where users can submit their username and password
     // Listening to changes on input and then updating the respective states
