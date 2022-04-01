@@ -1,12 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 
 import { Container, Row, Col, Navbar, Nav, Button, NavbarToggle } from 'react-bootstrap';
 import '../main-view/main-view.scss';
 
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 
 import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
@@ -14,9 +14,7 @@ import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { GenreView } from '../genre-view/genre-view';
 import { DirectorView } from '../director-view/director-view';
-
 import { ProfileView } from '../profile-view/profile-view';
-import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
 
 export class MainView extends React.Component {
 
@@ -30,11 +28,11 @@ export class MainView extends React.Component {
         };
     }
 
+    //https://macdon-myflix.herokuapp.com/movies //http://localhost:8080/movies
     getMovies(token) {
-        axios.get('https://macdon-myflix.herokuapp.com/movies') //https://macdon-myflix.herokuapp.com/movies //http://localhost:8080/movies
-            .then(response => {
-                headers: { Authorization: 'Bearer ${token}' }
-            })
+        axios.get('https://macdon-myflix.herokuapp.com/movies', {
+            headers: { Authorization: 'Bearer ${token}' }
+        })
             .then(response => {
                 this.setState({
                     movies: response.data
@@ -95,39 +93,22 @@ export class MainView extends React.Component {
         const { movies, user } = this.state;
 
         /* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView*/
-        if (!user) return
-        <Row>
-            <Col>
-                <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
-            </Col>
-        </Row>
+        if (!user) return (
+            <Row>
+                <Col>
+                    <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
+                </Col>
+            </Row>
+        )
 
         // Before the movies have been loaded
         if (movies.length === 0) return <div className="main-view" />;
 
         return (
             <Router>
-                <Navbar bg="danger" expand="lg" className="mb-4" fixed="top">
-                    <Container fluid style={{ margin: 0 }}>
-                        <Navbar.Brand className="ml-4">
-                            <Link style={{ color: "white" }} to={'/'}>
-                                myFlix
-                            </Link>
-                        </Navbar.Brand>
-                        <NavbarToggle></NavbarToggle>
-                        {user && (
-                            <Navbar.Collapse className="justify-content-end">
-                                <Link to={'/users/${user}'} className="mr-2">
-                                    <Button variant="light" variant="dark"> Your Profile</Button>
-                                </Link>
-                                <Button onClick={() => this.onLoggedOut()} variant="dark">Logout</Button>
-                            </Navbar.Collapse>
-                        )}
-                    </Container>
-                </Navbar>
                 <Row className="main-view justify-content-md-center">
                     <Routes>
-                        <Route exact path="/" render={() => {
+                        <Route exact path="/movies" render={() => {
                             if (!user) return (
                                 <Col>
                                     <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
@@ -143,7 +124,7 @@ export class MainView extends React.Component {
                             ))
                         }} />
 
-                        <Route path="/movies/:movieId" render={({ match, history }) => {
+                        <Route path="/movies/:MovieID" render={({ match, history }) => {
                             if (!user) return
                             <Col>
                                 <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
@@ -155,7 +136,7 @@ export class MainView extends React.Component {
                             </Col>
                         }} />
 
-                        <Route path="/directors/:name" render={({ match, history }) => {
+                        <Route path="/director/:Name" render={({ match, history }) => {
 
                             if (!user)
                                 return (
@@ -170,7 +151,7 @@ export class MainView extends React.Component {
                         }
                         } />
 
-                        <Route path="/genres/:name" render={({ match, history }) => {
+                        <Route path="/genre/:Name" render={({ match, history }) => {
                             if (!user) return
                             <Col>
                                 <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
@@ -190,7 +171,7 @@ export class MainView extends React.Component {
                         }
                         } />
 
-                        <Route path="/register" render={() => {
+                        <Route path="/users" render={() => {
                             if (user) return <Redirect to="/" />
                             return <Col lg={8} md={8}>
                                 <RegistrationView />

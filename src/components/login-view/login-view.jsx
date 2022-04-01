@@ -60,7 +60,7 @@ export function LoginView(props) {
                                             placeholder="Password" />
                                     </FormGroup>
                                     <Button className="ml-3" id="login-btn" type="submit" onClick={handleSubmit} variant="outline-success">
-                                        Submit
+                                        Login
                                     </Button>
                                     <Button className="ml-3" type="button" variant="outline-secondary">
                                         Create Account
