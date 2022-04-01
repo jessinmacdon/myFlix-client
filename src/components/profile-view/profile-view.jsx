@@ -38,9 +38,10 @@ export class ProfileView extends React.Component {
         axios.get(`https://macdon-myflix.herokuapp.com/users/${this.props.user}`, {
             headers: { Authorization: `Bearer ${token}` }
         }).then(response => {
+            console.log(response.data)
             this.setState({
                 userDetails: response.data,
-                FavoriteMovies: response.data.FavoriteMovies
+                FavoriteMovies: response.data.FavouriteMovies
             });
         }).catch(function (error) {
             console.log(error);
@@ -114,7 +115,8 @@ export class ProfileView extends React.Component {
     render() {
         // Get the props that were passed into this view and store them in appropriate variables
         const { movies, onBackClick } = this.props;
-        let tempArray = this.state.FavouriteMovies;
+        let tempArray = this.state.FavoriteMovies;
+        console.log("TEMP", tempArray)
         // Get an empty array which will store all of the movie objects which match the Favorites list
         let FavouriteMoviesArray = [];
         // Filter the movies array (obtained from props) and only save those movies which match ID's from the list of the users Favorites
@@ -138,9 +140,9 @@ export class ProfileView extends React.Component {
                     </Modal.Footer>
                 </Modal>
                 {/* Card for displaying current user details */}
-                <Card bg="secondary" text="light" border="light">
+                <Card bg="info" text="light" border="light" style={{ marginTop: 10, marginBottom: 10 }}>
                     <Card.Body>
-                        <Card.Title className="text-center">Profile of {this.state.userDetails.Username}</Card.Title>
+                        <Card.Title className="text-center">Hello {this.state.userDetails.Username}</Card.Title>
                         <Card.Text><span className="profile_heading">Email: </span>{this.state.userDetails.email}</Card.Text>
                         {/* Only display birthday section if filled */}
                         {this.state.userDetails.Birthdate && (
@@ -180,26 +182,26 @@ export class ProfileView extends React.Component {
                             </Form.Group>
 
                             {/* Button for updating the details which will call updateUserDetails (defined above) */}
-                            <Button variant="light" style={{ color: "white" }} type="submit" onClick={this.updateUserDetails}>
-                                Update Details
+                            <Button bg="success" type="submit" onClick={this.updateUserDetails} style={{ margin: 10, marginLeft: 0 }}>
+                                Update details
                             </Button>
                             {/* Button to go back to the previous view */}
-                            <Button onClick={() => onBackClick(null)} variant="light" style={{ color: "white" }}>Back</Button>
+                            <Button onClick={() => onBackClick(null)} variant="dark" style={{ margin: 10 }}>Back</Button>
                             {/* Button for deleting the user. This will first open the Modal defined above */}
-                            <Button className="float-right" variant="light" style={{ color: "white" }} onClick={this.showModal}>
-                                Delete User Profile
+                            <Button className="float-right" variant="danger" style={{ margin: 10, marginRight: 0 }} onClick={this.showModal}>
+                                Delete Account
                             </Button>
                         </Form>
                     </Card.Body>
                 </Card>
                 {/* Section for Favorites */}
-                <Card bg="secondary" text="light" border="light" align="center" style={{ color: "white" }}>
+                <Card bg="secondary" text="light" border="light" align="center">
                     <Card.Title>{this.state.userDetails.Username}'s Favourites:</Card.Title>
-                    <Row>
+                    <Row style={{ margin: 10 }}>
                         {/* Iterate over the FavoriteMoviesArray and create a MovieCard component for each one */}
 
                         {FavouriteMoviesArray.map(movie => (
-                            <Col md={4} key={movie._id} className="my-2">
+                            <Col md={4} key={movie._id} className="my-2" >
                                 <MovieCard movie={movie} />
                             </Col>))}
                     </Row>

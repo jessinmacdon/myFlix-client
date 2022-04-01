@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Navbar, Nav, Form, Button, Card, CardGroup, Containter, Col, Row, Container } from 'react-bootstrap';
+import { Form, Button, Card, CardGroup, Col, Row, Container } from 'react-bootstrap';
 import axios from 'axios';
 import { Link, Router } from "react-router-dom";
 

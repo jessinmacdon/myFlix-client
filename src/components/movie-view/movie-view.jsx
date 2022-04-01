@@ -18,7 +18,7 @@ export class MovieView extends React.Component {
 
         // to be called by onClick events to 'this'
         this.addFavorite = this.addFavorite.bind(this);
-        this.removeFavourite = this.removeFavourite.bind(this);
+        this.removeFavorite = this.removeFavorite.bind(this);
     }
 
     // get the user's details (for displaying whether this movie is in their favourite movis list)
@@ -112,15 +112,15 @@ export class MovieView extends React.Component {
                                     <Link style={{ color: "white" }} to={`/directors/${movie.Director.Name}`}>{movie.Director.Name}</Link>
                                 </Card.Text>
                             )}
-                            <Button onClick={() => onBackClick(null)} variant="light" style={{ color: "white" }}>Back</Button>
+                            <Button onClick={() => onBackClick(null)} variant="dark">Back</Button>
 
                             {/* check favourite movies array, if movie is included show remove from favourites list if not show add to favourites list */}
-                            {isFavouriteNew ? (
-                                <Button className="float-right" variant="light" style={{ color: "white" }} onClick={this.removeFavorite}>
+                            {isFavoriteNew ? (
+                                <Button className="float-right" variant="dark" onClick={this.removeFavorite}>
                                     Remove from Favorites
                                 </Button>
                             ) : (
-                                <Button className="float-right" variant="light" style={{ color: "white" }} onClick={this.addFavorite}>
+                                <Button className="float-right" variant="dark" onClick={this.addFavorite}>
                                     Add to Favorites
                                 </Button>
                             )}

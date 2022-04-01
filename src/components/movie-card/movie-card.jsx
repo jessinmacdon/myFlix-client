@@ -8,15 +8,20 @@ import { Link } from "react-router-dom";
 export class MovieCard extends React.Component {
     render() {
         const { movie } = this.props;
+        const description = movie.Description;
+
+        console.log("MOVIE CARD")
 
         return (
-            <Card bg="secondary" text="light" border="light">
+            <Card bg="secondary" text="light" border="light" style={{ marginBottom: 15 }} >
                 <Card.Img variant='top' src={movie.ImagePath} />
                 <Card.Body>
                     <Card.Title>{movie.Title}</Card.Title>
-                    <Card.Text>{movie.Description}</Card.Text>
+                    <Card.Text className="text-truncate">
+                        {movie.Description}
+                    </Card.Text>
                     <Link to={`/movies/${movie._id}`}>
-                        <Button variant="light" style={{ color: "white" }}>Open</Button>
+                        <Button variant="dark">Open</Button>
                     </Link>
                 </Card.Body>
             </Card>
