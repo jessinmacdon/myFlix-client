@@ -1,19 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+import { Button, Card } from 'react-bootstrap';
 
 import { Link } from "react-router-dom";
 
 export class MovieCard extends React.Component {
     render() {
         const { movie } = this.props;
-        const description = movie.Description;
 
         console.log("MOVIE CARD")
 
         return (
-            <Card bg="secondary" text="light" border="light" style={{ marginBottom: 15 }} >
+            <Card className="mt-6 mb-3" bg="secondary" text="light" border="light" >
                 <Card.Img variant='top' src={movie.ImagePath} />
                 <Card.Body>
                     <Card.Title>{movie.Title}</Card.Title>

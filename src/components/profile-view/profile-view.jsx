@@ -15,9 +15,9 @@ export class ProfileView extends React.Component {
             validated: false,
             Username: '',
             Password: '',
-            email: '',
-            Birthdate: '',
-            FavoriteMovies: [],
+            Email: '',
+            Birthday: '',
+            FavouriteMovies: [],
             modalState: false
         }
 
@@ -41,7 +41,7 @@ export class ProfileView extends React.Component {
             console.log(response.data)
             this.setState({
                 userDetails: response.data,
-                FavoriteMovies: response.data.FavouriteMovies
+                FavouriteMovies: response.data.FavouriteMovies
             });
         }).catch(function (error) {
             console.log(error);
@@ -64,8 +64,8 @@ export class ProfileView extends React.Component {
             axios.put(`https://macdon-myflix.herokuapp.com/users/${user}`, {
                 Username: this.state.Username,
                 Password: this.state.Password,
-                Email: this.state.email,
-                Birthday: this.state.Birthdate
+                Email: this.state.Email,
+                Birthday: this.state.Birthday
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             }).then(response => {
@@ -115,12 +115,12 @@ export class ProfileView extends React.Component {
     render() {
         // Get the props that were passed into this view and store them in appropriate variables
         const { movies, onBackClick } = this.props;
-        let tempArray = this.state.FavoriteMovies;
-        console.log("TEMP", tempArray)
+        let tempArray = this.state.FavouriteMovies;
         // Get an empty array which will store all of the movie objects which match the Favorites list
         let FavouriteMoviesArray = [];
         // Filter the movies array (obtained from props) and only save those movies which match ID's from the list of the users Favorites
         FavouriteMoviesArray = movies.filter(movie => tempArray.includes(movie._id));
+        console.log("TEMP", FavouriteMoviesArray)
 
         return (
             <div className="profile_view">
@@ -142,12 +142,10 @@ export class ProfileView extends React.Component {
                 {/* Card for displaying current user details */}
                 <Card bg="info" text="light" border="light" style={{ marginTop: 10, marginBottom: 10 }}>
                     <Card.Body>
-                        <Card.Title className="text-center">Hello {this.state.userDetails.Username}</Card.Title>
-                        <Card.Text><span className="profile_heading">Email: </span>{this.state.userDetails.email}</Card.Text>
-                        {/* Only display birthday section if filled */}
-                        {this.state.userDetails.Birthdate && (
-                            <Card.Text><span className="profile_heading">Date of Birth: </span>{Intl.DateTimeFormat().format(new Date(this.state.userDetails.Birthdate))}</Card.Text>
-                        )}
+                        <Card.Title className="text-center">Profile details</Card.Title>
+                        <Card.Text >Username: {this.state.userDetails.Username}</Card.Text>
+                        <Card.Text className="profile_heading">Email: {this.state.userDetails.Email}</Card.Text>
+                        <Card.Text className="profile_heading">Date of Birth: {this.state.userDetails.Birthday}</Card.Text>
                     </Card.Body>
                 </Card>
                 {/* Card for displaying the form which will be used to update user details */}
@@ -196,7 +194,7 @@ export class ProfileView extends React.Component {
                 </Card>
                 {/* Section for Favorites */}
                 <Card bg="secondary" text="light" border="light" align="center">
-                    <Card.Title>{this.state.userDetails.Username}'s Favourites:</Card.Title>
+                    <Card.Title className='mt-3'>Your Favourite Movies ({this.state.userDetails.Username}):</Card.Title>
                     <Row style={{ margin: 10 }}>
                         {/* Iterate over the FavoriteMoviesArray and create a MovieCard component for each one */}
 

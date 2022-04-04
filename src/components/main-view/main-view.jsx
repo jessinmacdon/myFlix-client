@@ -128,11 +128,13 @@ export class MainView extends React.Component {
 
                         if (movies.length === 0) return <div className="main-view" />;
                         return <Col md={8}>
-                            <MovieView movie={movies.find(m => m._id === match.params.movieId)} user={user} onBackClick={() => history.goBack()} />
+                            <MovieView movie={movies.find(m => m._id === match.params.movieId)}
+                                user={user}
+                                onBackClick={() => history.goBack()} />
                         </Col>
                     }} />
 
-                    <Route path="/director/:Name" render={({ match, history }) => {
+                    <Route path="movies/director/:Name" render={({ match, history }) => {
 
                         if (!user)
                             return (
@@ -142,12 +144,16 @@ export class MainView extends React.Component {
                             );
                         if (movies.length === 0) return <div className="main-view" />;
                         return <Col md={8}>
-                            <DirectorView Director={movies.find((m) => m.Director.Name === match.params.name).Director} onBackClick={() => history.goBack()} />
+                            <DirectorView
+                                Director={movies.find((m) => m.Director.Name === match.params.Name).Director}
+                                onBackClick={() => history.goBack()}
+                                movies={movies.filter(movie => movie.Director.Name === match.params.name)}
+                            />
                         </Col>
                     }
                     } />
 
-                    <Route path="/genre/:Name" render={({ match, history }) => {
+                    <Route path="movies/genre/:Name" render={({ match, history }) => {
                         if (!user) return
                         <Col>
                             <LoginView onLoggedIn={user => this.onLoggedIn(user)} />
@@ -162,7 +168,11 @@ export class MainView extends React.Component {
                             );
                         if (movies.length === 0) return <div className="main-view" />;
                         return <Col md={8}>
-                            <GenreView Genre={movies.find((m) => m.Genre.Name === match.params.name).Genre} onBackClick={() => history.goBack()} />
+                            <GenreView
+                                Genre={movies.find((m) => m.Genre.Name === match.params.Name).Genre}
+                                onBackClick={() => history.goBack()}
+                                movies={movies.filter(movie => movie.Genre.Name === match.params.name)}
+                            />
                         </Col>
                     }
                     } />

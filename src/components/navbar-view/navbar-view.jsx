@@ -32,7 +32,7 @@ export function Navbar(user) {
                 <Navbar.Brand as={Link} to={"/"} style={{ margin: 5 }}>MyFlix</Navbar.Brand>
                 {isAuth() && (
                     <Nav className="me-auto">
-                        <Nav.Link as={Link} to={`/users/${user.user}`} style={{ margin: 5, textColor: 'green' }}>{user.user}</Nav.Link>
+                        <Nav.Link as={Link} to={`/users/${user.user}`} style={{ margin: 5, Color: 'green' }}>{user.user}</Nav.Link>
                         <Button variant="outline-primary" onClick={() => { onLoggedOut() }}>Logout</Button>
                     </Nav>
                 )}

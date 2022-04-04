@@ -1,86 +1,102 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Button, Container, Row, Col, Card, CardGroup, FormGroup } from 'react-bootstrap';
-import '../login-view/login-view.scss';
 import axios from 'axios';
+import { Form, Button, Card, CardGroup, Col, Row, Container } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
+// SCSS Import
+import "./login-view.scss";
 
-// Create LoginView as function component using Hooks
 export function LoginView(props) {
-    // Call useState method from React to initialize login variables with an empty value
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    // Sending request to server for authentication
-    const handleSubmit = (e) => {
-        e.preventDefault(); // prevent default submit button behaviour, i.e., don't reload the page
-        console.log(username, password);
+    //validation declarations 
+    const [usernameErr, setUsernameErr] = useState('');
+    const [passwordErr, setPasswordErr] = useState('');
 
-        /* Send a request to the server for authentication */
-        /* then call this.props.onLoggedIn(username) */
-        axios.post('https://macdon-myflix.herokuapp.com/login', {
-            Username: username,
-            Password: password
-        })
-            .then(response => {
-                const data = response.data;
-                console.log("calling on logged in")
-                props.onLoggedIn(data);
+    // validate user inputs
+    const validate = () => {
+        let isReq = true;
+        if (!username) {
+            setUsernameErr('Username Required');
+            isReq = false;
+        } else if (username.length < 6) {
+            setUsernameErr('Username must be 6 characters long');
+            isReq = false;
+        }
+        if (!password) {
+            setPasswordErr('Password Required');
+            isReq = false;
+        } else if (password.length < 8) {
+            setPassword('Password must be 8 characters long');
+            isReq = false;
+        }
+
+        return isReq;
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const isReq = validate();
+        if (isReq) {
+            /* Send a request to the server for authentication */
+            axios.post('https://macdon-myflix.herokuapp.com/login', {
+                Username: username,
+                Password: password
             })
-            .catch(e => {
-                console.log('no such user')
-            });
+                .then(response => {
+                    const data = response.data;
+                    props.onLoggedIn(data);
+                })
+                .catch(e => {
+                    console.log('no such user')
+                    alert('Login failed!! This might be due to a worng username or password. Please check for imput and try again.');
+                });
+        }
     };
 
-    // Return a login form where users can submit their username and password
-    // Listening to changes on input and then updating the respective states
-
     return (
-        <Container id="login-container" fluid>
-            <Row>
-                <Col>
-                    <CardGroup>
-                        <Card id="loginCard" style={{ marginTop: 100, marginBottom: 50, width: 50 }}>
-                            <Card.Body>
-                                <Card.Title>Please Login</Card.Title>
-                                <Form>
-                                    <FormGroup className="mb-3" controlId="formGroupUsername">
-                                        <Form.Label>Username:</Form.Label>
-                                        <Form.Control
-                                            type="text"
-                                            value={username}
-                                            onChange={e => setUsername(e.target.value)}
-                                            placeholder="Username" />
-                                    </FormGroup>
-                                    <FormGroup className="mb-3" controlId="formGroupPassword">
-                                        <Form.Label>Password:</Form.Label>
-                                        <Form.Control
-                                            type="password"
-                                            value={password}
-                                            onChange={e => setPassword(e.target.value)}
-                                            placeholder="Password" />
-                                    </FormGroup>
-                                    <Button className="ml-3" id="login-btn" type="submit" onClick={handleSubmit} variant="outline-success">
-                                        Login
-                                    </Button>
-                                    <Button className="ml-3" type="button" variant="outline-secondary">
-                                        Create Account
-                                    </Button>
-                                </Form>
-                            </Card.Body>
-                        </Card>
-                    </CardGroup>
-                </Col>
-            </Row>
-        </Container >
+        <div className="login-view">
+            <Container fluid style={{ padding: 'auto' }}>
+                <Row>
+                    <Col>
+                        <CardGroup>
+                            <Card bg="secondary" text="light" border="light">
+                                <Card.Body>
+                                    <Card.Title>Welcome to MyFlix!</Card.Title>
+                                    <Form>
+                                        <Form.Group controlId="formUsername" className="mb-3 mt-2">
+                                            <Form.Label>Username:</Form.Label>
+                                            <Form.Control type="text" onChange={e => setUsername(e.target.value)} />
+                                            {usernameErr && <p>{usernameErr}</p>}
+                                        </Form.Group>
+                                        <Form.Group controlId="formPassword" className="mb-3">
+                                            <Form.Label>Password:</Form.Label>
+                                            <Form.Control type="password" onChange={e => setPassword(e.target.value)} />
+                                            {passwordErr && <p>{passwordErr}</p>}
+                                        </Form.Group>
+                                        <Button className="primary" type="submit" onClick={handleSubmit}>
+                                            Login
+                                        </Button>
+                                        <Link to={`/register`}>
+                                            <Button className="success ml-3" type="button">Sign Up</Button>
+                                        </Link>
+                                    </Form>
+                                </Card.Body>
+                            </Card>
+                        </CardGroup>
+                    </Col>
+                </Row>
+            </Container>
+        </div>
     );
-
 }
 
 LoginView.propTypes = {
     user: PropTypes.shape({
-        username: PropTypes.string.isRequired,
-        password: PropTypes.string.isRequired
+        Username: PropTypes.string.isRequired,
+        Password: PropTypes.string.isRequired,
     }),
     onLoggedIn: PropTypes.func.isRequired,
 };

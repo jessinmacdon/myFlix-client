@@ -8,11 +8,14 @@
 
 
 
+.warning-text {
+  color: red;
+  margin-left: 2px;
+}
+
 .label {
   font-weight: 600;
 }
-
-
 
 
 

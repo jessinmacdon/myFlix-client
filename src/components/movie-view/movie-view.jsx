@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Navbar, Nav, Form, Button, Card, CardGroup, Containter, Col, Row, Container, ListGroupItem, ListGroup } from 'react-bootstrap';
+import { Button, Card, Col, Row, Badge } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
@@ -17,8 +17,8 @@ export class MovieView extends React.Component {
         }
 
         // to be called by onClick events to 'this'
-        this.addFavorite = this.addFavorite.bind(this);
-        this.removeFavorite = this.removeFavorite.bind(this);
+        this.addFavourite = this.addFavourite.bind(this);
+        this.removeFavourite = this.removeFavourite.bind(this);
     }
 
     // get the user's details (for displaying whether this movie is in their favourite movis list)
@@ -43,27 +43,13 @@ export class MovieView extends React.Component {
     }
 
     // post movies to favourites array - add movies to favourites list 
-    addFavorite() {
+    addFavourite() {
         let token = localStorage.getItem('token');
         axios.post(`https://macdon-myflix.herokuapp.com/users/${this.props.user}/movies/${this.props.movie._id}`, {}, {
             headers: { Authorization: `Bearer ${token}` }
-        }).then(response => {
-            this.setState({ isFavourite: true });
-            window.open(`/movies/${this.props.movie._id}`, '_self');
-        })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
-    // remove movies from favourites list
-    removeFavorite() {
-        let token = localStorage.getItem('token');
-        axios.delete(`https://macdon-myflix.herokuapp.com/${this.props.user}/movies/${this.props.movie._id}`, {
-            headers: { Authorization: `Bearer ${token}` }
         })
             .then(response => {
-                this.setState({ isFavourite: false });
+                this.setState({ isFavourite: true });
                 window.open(`/movies/${this.props.movie._id}`, '_self');
             })
             .catch(function (error) {
@@ -71,17 +57,35 @@ export class MovieView extends React.Component {
             });
     }
 
+    // remove movies from favourites list
+    removeFavourite() {
+        let token = localStorage.getItem('token');
+        axios.delete(`https://macdon-myflix.herokuapp.com/users/${this.props.user}/movies/${this.props.movie._id}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+            .then(() => {
+                this.setState({ isFavourite: false });
+                console.log('this works')
+                window.open(`/movies/${this.props.movie._id}`, '_self');
+            })
+
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+
 
     render() {
-        const { movie, onBackClick } = this.props;
+        const { movie, onBackClick, _id } = this.props;
 
-        // This section of code sets a flag which will show a add/remove Favorites button depending on if the movie can be found in the users Favorites
+        // This section of code sets a flag which will show a add/remove Favourites button depending on if the movie can be found in the users Favourites
         let tempArray = this.state.FavouriteMovies;
-        let isFavoriteNew = false
+        let isFavouriteNew = false
         if (tempArray.includes(this.props.movie._id)) {
-            isFavoriteNew = true;
+            isFavouriteNew = true;
         } else {
-            isFavoriteNew = false;
+            isFavouriteNew = false;
         };
 
         return (
@@ -96,32 +100,34 @@ export class MovieView extends React.Component {
                             />
                         </Col>
                         <Col xs={12} md={6}>
-                            <Card.Title className="text-center">{movie.Title}</Card.Title>
+                            <Card.Title>
+                                {movie.Title}
+                            </Card.Title>
                             <Card.Text>{movie.Description}</Card.Text>
 
                             {/* check for genre, if stated(exists) parse, else skipped it */}
                             {movie.Genre.Name && (
                                 <Card.Text className="genre_heading">
-                                    <span className="genre_title">Genre:</span>
-                                    <Link style={{ color: "white" }} to={`/genres/${movie.Genre.Name}`}>{movie.Genre.Name}</Link>
+                                    <span className="genre_title">Genre: </span>
+                                    <Link style={{ color: 'white' }} to={`genre/${movie.Genre.Name}`}>{movie.Genre.Name}</Link>
                                 </Card.Text>
                             )}
                             {movie.Director.Name && (
                                 <Card.Text className="director_heading">
-                                    <span className="director_title">Director:</span>
-                                    <Link style={{ color: "white" }} to={`/directors/${movie.Director.Name}`}>{movie.Director.Name}</Link>
+                                    <span className="director_title">Director: </span>
+                                    <Link style={{ color: 'white' }} to={`director/${movie.Director.Name}`}>{movie.Director.Name}</Link>
                                 </Card.Text>
                             )}
-                            <Button onClick={() => onBackClick(null)} variant="dark">Back</Button>
+                            <Button onClick={() => onBackClick(null)} variant="light">Back</Button>
 
                             {/* check favourite movies array, if movie is included show remove from favourites list if not show add to favourites list */}
-                            {isFavoriteNew ? (
-                                <Button className="float-right" variant="dark" onClick={this.removeFavorite}>
-                                    Remove from Favorites
+                            {isFavouriteNew ? (
+                                <Button className="ml-3" variant="dark" onClick={this.removeFavourite}>
+                                    Remove from Favourites
                                 </Button>
                             ) : (
-                                <Button className="float-right" variant="dark" onClick={this.addFavorite}>
-                                    Add to Favorites
+                                <Button className="ml-3" variant="dark" onClick={this.addFavourite}>
+                                    Add to Favourites
                                 </Button>
                             )}
 

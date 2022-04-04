@@ -1,44 +1,41 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Button, Card, CardGroup, Col, Row, Container } from 'react-bootstrap';
+import { Form, Button, Card, CardGroup, Container, Col, Row } from 'react-bootstrap';
 import axios from 'axios';
-import { Link, Router } from "react-router-dom";
+
+import "./registration-view.scss"
 
 export function RegistrationView(props) {
-    const [Username, setUsername] = useState('');
-    const [Password, setPassword] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [Birthdate, setBirthdate] = useState('');
-    const [UsernameErr, setUsernameErr] = useState('');
-    const [PasswordErr, setPasswordErr] = useState('');
-    const [emailErr, setemailErr] = useState('');
-    const [BirthdateErr, setBirthdateErr] = useState('');
+    const [birthday, setBirthday] = useState('');
+
+    const [usernameErr, setUsernameErr] = useState('');
+    const [passwordErr, setPasswordErr] = useState('');
+    const [emailErr, setEmailErr] = useState('');
 
     const validate = () => {
         let isReq = true;
-        if (!Username) {
+        if (!username) {
             setUsernameErr('Username Required');
             isReq = false;
-        } else if (Username.length < 6) {
-            setUsernameErr('Username must be 6 characters long');
+        } else if (username.length < 2) {
+            setUsernameErr('Username must be at least 2 characters long');
             isReq = false;
         }
-        if (!Password) {
+        if (!password) {
             setPasswordErr('Password Required');
             isReq = false;
-        } else if (Password.length < 8) {
-            setPasswordErr('Password must be 8 characters long');
+        } else if (password.length < 6) {
+            setPasswordErr('Password must be at least 6 characters long');
             isReq = false;
         }
         if (!email) {
-            setemailErr('Please user valid email')
+            setEmailErr('Please enter a email address');
+            isReq = false;
         } else if (email.indexOf('@') === -1) {
-            setemailErr('Please user valid email')
-            isReq = false;
-        }
-        if (!Birthdate) {
-            setBirthdateErr('Please enter birthdate')
-            isReq = false;
+            setEmailErr('Please enter a valid email address');
         }
         return isReq;
     }
@@ -46,23 +43,23 @@ export function RegistrationView(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         const isReq = validate();
+
         if (isReq) {
-            console.log(Username, Password);
             axios.post('https://macdon-myflix.herokuapp.com/users', {
-                Username: Username,
-                Password: Password,
-                email: email,
-                Birthdate: Birthdate
+                Username: username,
+                Password: password,
+                Email: email
             })
                 .then(response => {
                     const data = response.data;
                     console.log(data);
-                    window.open('/', '_self');// the second argument '_self' is necessary so that the page will open in the current tab
+                    alert('Registration successful, Click Ok and your will be taken to the login page');
+                    window.open('/', '_self');
                 })
-                .catch(e => {
-                    console.log('error registering this user')
+                .catch(response => {
+                    console.log(response);
+                    alert('We\'re unable to create your account. Please check your details and try again');
                 });
-            //props.onLoggedIn(Username);
         }
     };
 
@@ -74,30 +71,30 @@ export function RegistrationView(props) {
                         <CardGroup>
                             <Card bg="secondary" text="white" border="light">
                                 <Card.Body>
-                                    <Card.Title>Please register</Card.Title>
-                                    <Form>
-                                        <Form.Group>
+                                    <Card.Title>Create an account</Card.Title>
+                                    <Form noValidate >
+                                        <Form.Group className="mb-3">
                                             <Form.Label> Username: </Form.Label>
                                             <Form.Control
                                                 type="text"
-                                                value={Username}
+                                                value={username}
                                                 onChange={e => setUsername(e.target.value)}
                                                 required
                                                 placeholder="Enter a username" />
-                                            {UsernameErr && <p>{UsernameErr}</p>}
+                                            {usernameErr && <p>{usernameErr}</p>}
                                         </Form.Group>
-                                        <Form.Group>
+                                        <Form.Group className="mb-3">
                                             <Form.Label>Password:</Form.Label>
                                             <Form.Control
                                                 type="password"
-                                                value={Password}
+                                                value={password}
                                                 onChange={e => setPassword(e.target.value)}
                                                 required
                                                 minLength="8"
                                                 placeholder="Your password must be at least 8 characters" />
-                                            {PasswordErr && <p>{PasswordErr}</p>}
+                                            {passwordErr && <p>{passwordErr}</p>}
                                         </Form.Group>
-                                        <Form.Group>
+                                        <Form.Group className="mb-3">
                                             <Form.Label>Email:</Form.Label>
                                             <Form.Control
                                                 type="text"
@@ -107,21 +104,20 @@ export function RegistrationView(props) {
                                                 placeholder="Enter your email" />
                                             {emailErr && <p>{emailErr}</p>}
                                         </Form.Group>
-                                        <Form.Group>
+                                        <Form.Group className="mb-3">
                                             <Form.Label>Birthdate:</Form.Label>
                                             <Form.Control
                                                 type="date"
-                                                value={Birthdate}
-                                                onChange={e => setBirthdate(e.target.value)}
+                                                value={birthday}
+                                                onChange={e => setBirthday(e.target.value)}
                                                 required
                                                 placeholder="Enter your Birthdate" />
-                                            {BirthdateErr && <p>{BirthdateErr}</p>}
                                         </Form.Group>
-                                        <Button variant="light" style={{ color: "white" }} type="submit"
+                                        <Button className="primary"
+                                            type="submit"
                                             onClick={handleSubmit}>
-                                            Submit
+                                            Sign Up
                                         </Button>
-
                                     </Form>
                                 </Card.Body>
                             </Card>
@@ -132,3 +128,7 @@ export function RegistrationView(props) {
         </div>
     );
 }
+
+/*RegistrationView.propTypes = {
+    onRegistration: PropTypes.func.isRequired,
+};*/

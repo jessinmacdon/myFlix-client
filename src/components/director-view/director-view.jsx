@@ -1,54 +1,51 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+
+import { MovieCard } from '../movie-card/movie-card';
+
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
+
 import { Link } from 'react-router-dom';
-import { Container, Card, Button, Row, Col } from "react-bootstrap";
 
-import "./director-view.scss";
+export function DirectorView(props) {
+    return (
+        <>
 
-export class DirectorView extends React.Component {
-    render() {
-        const { Director, onBackClick } = this.props;
+            <div>
+                <Button variant="outline-light" onClick={() => { props.onBackClick() }}>Back</Button>
+            </div>
 
-        return (
-            <Container>
-                <br />
-                <Card bg="secondary" text="light" border="light" align="center">
+            <div>
+                <h1 className="display-4">{props.director.Name}</h1>
+            </div>
+            <div>
+                <span className="value">Birthday: {props.director.Birthday}</span>
+            </div>
+            <div>
+                <span className="value">{props.director.Bio}</span>
+            </div>
+            <br />
+            <div>
+                <h4>Some movies from this director:</h4>
+            </div>
 
-                    <Card.Body>
-                        <Card.Title>Director</Card.Title>
-                        <div>
-                            <span className="label">Name: </span>
-                            <span className="value">{Director.Name}</span>
-                        </div>
-                        <div>
-                            <span className="label">Bio: </span>
-                            <span className="value">{Director.Bio}</span>
-                        </div>
-                        <div>
-                            <span className="label">Born: </span>
-                            <span className="value">{Director.Birthyear}</span>
-                        </div>
-                        <div>
-                            <span className="label">Death: </span>
-                            <span className="value">{Director.Deathyear}</span>
-                        </div>
-                        <br />
-                        <div className="backButton">
-                            <Button size="md" variant="light" style={{ color: "white" }} onClick={() => { onBackClick(null); }}>Back</Button>
-                        </div>
-                    </Card.Body>
-                </Card>
-            </Container>
-        );
-    }
+
+
+            <Row className="justify-content-md-center">
+                {props.movies.filter(m => m.Director.Name === props.director.Name).map(m => (
+                    <Col xs={12} sm={6} md={4} className="d-flex" key={m._id}>
+                        <MovieCard movie={m} />
+                    </Col>
+                ))}
+            </Row>
+
+
+
+
+            <Link to={"/"}>
+                <Button variant="outline-light">Back</Button>
+            </Link>
+        </>
+    )
 }
-
-DirectorView.propTypes = {
-    Director: PropTypes.shape({
-        Name: PropTypes.string.isRequired,
-        Bio: PropTypes.string.isRequired,
-        Birthyear: PropTypes.string,
-        Deathyear: PropTypes.string
-    }),
-    onBackClick: PropTypes.func.isRequired
-};
