@@ -1,14 +1,18 @@
 import React from 'react';
 
 
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import Button from 'react-bootstrap/Button';
+import { Container, Navbar, Nav, Button, Row, Col } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
 
 export function Navbar(user) {
+    console.log("USER", user)
+
+    let Username = 'User';
+    if (user.user !== null) {
+        console.log(user)
+        Username = user.user.Username;
+    }
 
     const onLoggedOut = () => {
         localStorage.clear();
@@ -27,13 +31,13 @@ export function Navbar(user) {
     };
 
     return (
-        <Navbar bg="dark" variant="dark" className="mb-3">
-            <Container fluid style={{ margin: 0 }}>
-                <Navbar.Brand as={Link} to={"/"} style={{ margin: 5 }}>MyFlix</Navbar.Brand>
+        <Navbar bg="dark" variant="dark" className="navBar mb-4">
+            <Container>
+                <Navbar.Brand as={Link} to={"/"} style={{ margin: 10 }}>MyFlix</Navbar.Brand>
                 {isAuth() && (
                     <Nav className="me-auto">
-                        <Nav.Link as={Link} to={`/users/${user.user}`} style={{ margin: 5, Color: 'green' }}>{user.user}</Nav.Link>
-                        <Button variant="outline-primary" onClick={() => { onLoggedOut() }}>Logout</Button>
+                        <Nav.Link as={Link} to={`/users/${Username}`} style={{ margin: 10 }}>{Username}</Nav.Link>
+                        <Button variant="outline-primary" style={{ margin: 10 }} onClick={() => { onLoggedOut() }}>Logout</Button>
                     </Nav>
                 )}
             </Container>

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, Col, Row, Badge } from 'react-bootstrap';
+import { Button, Card, Col, Row } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 
@@ -24,12 +24,12 @@ export class MovieView extends React.Component {
     // get the user's details (for displaying whether this movie is in their favourite movis list)
     componentDidMount() {
         let accessToken = localStorage.getItem('token');
-        this.getUserDetails(accessToken);
+        // this.getUserDetails(accessToken);
     }
 
     // get user details from the server
     getUserDetails(token) {
-        axios.get(`https://macdon-myflix.herokuapp.com/users/${this.props.user}`, {
+        axios.get(`https://macdon-myflix.herokuapp.com/users/${this.props.user.Username}`, {
             headers: { Authorization: `Bearer ${token}` }
         }).then(response => {
             // Use the response to set the user details in the state variables
@@ -45,11 +45,11 @@ export class MovieView extends React.Component {
     // post movies to favourites array - add movies to favourites list 
     addFavourite() {
         let token = localStorage.getItem('token');
-        axios.post(`https://macdon-myflix.herokuapp.com/users/${this.props.user}/movies/${this.props.movie._id}`, {}, {
+        axios.post(`https://macdon-myflix.herokuapp.com/users/${this.props.user.Username}/movies/${this.props.movie._id}`, {}, {
             headers: { Authorization: `Bearer ${token}` }
         })
             .then(response => {
-                this.setState({ isFavourite: true });
+                this.setState({ isFavouriteNew: true });
                 window.open(`/movies/${this.props.movie._id}`, '_self');
             })
             .catch(function (error) {
@@ -60,12 +60,12 @@ export class MovieView extends React.Component {
     // remove movies from favourites list
     removeFavourite() {
         let token = localStorage.getItem('token');
-        axios.delete(`https://macdon-myflix.herokuapp.com/users/${this.props.user}/movies/${this.props.movie._id}`, {
+        axios.delete(`https://macdon-myflix.herokuapp.com/users/${this.props.user.Username}/movies/${this.props.movie._id}`, {
             headers: { Authorization: `Bearer ${token}` }
         })
             .then(() => {
-                this.setState({ isFavourite: false });
-                console.log('this works')
+                console.log("REMOOOVED")
+                this.setState({ isFavouriteNew: false });
                 window.open(`/movies/${this.props.movie._id}`, '_self');
             })
 
@@ -77,10 +77,11 @@ export class MovieView extends React.Component {
 
 
     render() {
-        const { movie, onBackClick, _id } = this.props;
+        const { movie, user, onBackClick } = this.props;
 
-        // This section of code sets a flag which will show a add/remove Favourites button depending on if the movie can be found in the users Favourites
-        let tempArray = this.state.FavouriteMovies;
+        // This section of code sets a flag which will show a add/remove Favourites button depending on if the movie can be found in the users Favourites Array
+        let tempArray = user.FavouriteMovies;
+        console.log(tempArray)
         let isFavouriteNew = false
         if (tempArray.includes(this.props.movie._id)) {
             isFavouriteNew = true;
@@ -89,17 +90,17 @@ export class MovieView extends React.Component {
         };
 
         return (
-            <Card bg="secondary" text="light" border="light">
+            <Card bg="secondary" text="light" border="light" >
                 <Card.Body>
                     <Row>
-                        <Col xs={12} md={6}>
+                        <Col xs={12} md={12}>
                             <Card.Img
                                 varient="top"
                                 src={movie.ImagePath}
                                 className="big_image"
                             />
                         </Col>
-                        <Col xs={12} md={6}>
+                        <Col xs={12} md={12}>
                             <Card.Title>
                                 {movie.Title}
                             </Card.Title>

@@ -14,6 +14,7 @@ export function RegistrationView(props) {
     const [usernameErr, setUsernameErr] = useState('');
     const [passwordErr, setPasswordErr] = useState('');
     const [emailErr, setEmailErr] = useState('');
+    const [registerErr, setRegisterErr] = useState('');
 
     const validate = () => {
         let isReq = true;
@@ -58,13 +59,13 @@ export function RegistrationView(props) {
                 })
                 .catch(response => {
                     console.log(response);
-                    alert('We\'re unable to create your account. Please check your details and try again');
+                    setRegisterErr('We\'re unable to create your account. Please check your details and try again');
                 });
         }
     };
 
     return (
-        <div className="registration-view">
+        <div className="registration-view xs{12} sm{12} md{3} lg{4}">
             <Container fluid style={{ paddingTop: '0.75rem' }}>
                 <Row>
                     <Col>
@@ -81,7 +82,7 @@ export function RegistrationView(props) {
                                                 onChange={e => setUsername(e.target.value)}
                                                 required
                                                 placeholder="Enter a username" />
-                                            {usernameErr && <p>{usernameErr}</p>}
+                                            {usernameErr && <p className='errmsg'>{usernameErr}</p>}
                                         </Form.Group>
                                         <Form.Group className="mb-3">
                                             <Form.Label>Password:</Form.Label>
@@ -92,7 +93,7 @@ export function RegistrationView(props) {
                                                 required
                                                 minLength="8"
                                                 placeholder="Your password must be at least 8 characters" />
-                                            {passwordErr && <p>{passwordErr}</p>}
+                                            {passwordErr && <p className='errmsg'>{passwordErr}</p>}
                                         </Form.Group>
                                         <Form.Group className="mb-3">
                                             <Form.Label>Email:</Form.Label>
@@ -102,7 +103,7 @@ export function RegistrationView(props) {
                                                 onChange={e => setEmail(e.target.value)}
                                                 required
                                                 placeholder="Enter your email" />
-                                            {emailErr && <p>{emailErr}</p>}
+                                            {emailErr && <p className='errmsg'>{emailErr}</p>}
                                         </Form.Group>
                                         <Form.Group className="mb-3">
                                             <Form.Label>Birthdate:</Form.Label>
@@ -119,6 +120,7 @@ export function RegistrationView(props) {
                                             Sign Up
                                         </Button>
                                     </Form>
+                                    {registerErr && <p className='errmsg'>{registerErr}</p>}
                                 </Card.Body>
                             </Card>
                         </CardGroup>

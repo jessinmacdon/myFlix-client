@@ -31,22 +31,22 @@ export class ProfileView extends React.Component {
 
     componentDidMount() {
         let accessToken = localStorage.getItem('token');
-        this.getUserDetails(accessToken);
+        //this.getUserDetails(accessToken);
     }
 
-    getUserDetails(token) {
-        axios.get(`https://macdon-myflix.herokuapp.com/users/${this.props.user}`, {
-            headers: { Authorization: `Bearer ${token}` }
-        }).then(response => {
-            console.log(response.data)
-            this.setState({
-                userDetails: response.data,
-                FavouriteMovies: response.data.FavouriteMovies
-            });
-        }).catch(function (error) {
-            console.log(error);
-        });
-    };
+    /* getUserDetails(token) {
+         axios.get(`https://macdon-myflix.herokuapp.com/users/${this.props.user}`, {
+             headers: { Authorization: `Bearer ${token}` }
+         }).then(response => {
+             console.log(response.data)
+             this.setState({
+                 userDetails: response.data,
+                 FavouriteMovies: response.data.FavouriteMovies
+             });
+         }).catch(function (error) {
+             console.log(error);
+         });
+     };*/
 
     updateUserDetails(e) {
         const form = e.currentTarget.parentNode;
@@ -65,7 +65,8 @@ export class ProfileView extends React.Component {
                 Username: this.state.Username,
                 Password: this.state.Password,
                 Email: this.state.Email,
-                Birthday: this.state.Birthday
+                Birthday: this.state.Birthday,
+                FavouriteMovies: this.state.FavouriteMovies
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             }).then(response => {
@@ -114,12 +115,9 @@ export class ProfileView extends React.Component {
     // Render function to display items on the DOM
     render() {
         // Get the props that were passed into this view and store them in appropriate variables
-        const { movies, onBackClick } = this.props;
-        let tempArray = this.state.FavouriteMovies;
-        // Get an empty array which will store all of the movie objects which match the Favorites list
-        let FavouriteMoviesArray = [];
+        const { user, movies, onBackClick } = this.props;
         // Filter the movies array (obtained from props) and only save those movies which match ID's from the list of the users Favorites
-        FavouriteMoviesArray = movies.filter(movie => tempArray.includes(movie._id));
+        const FavouriteMoviesArray = movies.filter(movie => user.FavouriteMovies.includes(movie._id));
         console.log("TEMP", FavouriteMoviesArray)
 
         return (

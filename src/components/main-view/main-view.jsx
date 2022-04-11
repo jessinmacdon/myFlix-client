@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 
 import { Container, Row, Col, Nav, Button, NavbarToggle } from 'react-bootstrap';
 import '../main-view/main-view.scss';
@@ -25,7 +25,8 @@ export class MainView extends React.Component {
         this.state = {
             movies: [],
             selectedMovie: null,
-            user: null
+            user: null,
+            favouriteMovies: [],
         };
     }
 
@@ -45,15 +46,31 @@ export class MainView extends React.Component {
             });
     }
 
+    getUser(username, token) {
+        console.log("Getting users")
+        axios.get(`https://macdon-myflix.herokuapp.com/users/${username}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+            .then(response => {
+                this.setState({
+                    user: response.data
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
     componentDidMount() {
         console.log("Mounting component")
         let accessToken = localStorage.getItem('token');
+        const username = localStorage.getItem('user');
         console.log("token", accessToken)
         if (accessToken !== null) {
-            this.setState({
-                user: localStorage.getItem('user')
-            });
+
             this.getMovies(accessToken);
+            this.getUser(username, accessToken);
+            //console.log("Is user avilable?", this.state.user)
         }
     }
 
@@ -70,7 +87,7 @@ export class MainView extends React.Component {
     onLoggedIn(authData) {
         console.log("ON LOGGED IN", authData);
         this.setState({
-            user: authData.user.Username
+            user: authData.user
         });
         localStorage.setItem('token', authData.token);
         localStorage.setItem('user', authData.user.Username);
@@ -97,12 +114,13 @@ export class MainView extends React.Component {
         const { movies, user } = this.state;
 
         console.log("Users", user)
+        //console.log("Favs", user.favouriteMovies);
 
 
         return (
             <Router>
                 <Navbar user={user} />
-                <Row className="main-view justify-content-md-center">
+                <Row className="main-view " >
                     <Route exact path="/" render={() => {
                         if (!user) return (
                             <Col>
@@ -114,7 +132,7 @@ export class MainView extends React.Component {
 
                         console.log("About to load movie Cards")
                         return movies.map(m => (
-                            <Col md={3} key={m._id}>
+                            <Col className="justify-content-center" xs={12} sm={12} md={4} lg={3} key={m._id} style={{ padding: 0 }}>
                                 <MovieCard movie={m} />
                             </Col>
                         ))
@@ -127,7 +145,7 @@ export class MainView extends React.Component {
                         </Col>
 
                         if (movies.length === 0) return <div className="main-view" />;
-                        return <Col md={8}>
+                        return <Col md={8} >
                             <MovieView movie={movies.find(m => m._id === match.params.movieId)}
                                 user={user}
                                 onBackClick={() => history.goBack()} />
