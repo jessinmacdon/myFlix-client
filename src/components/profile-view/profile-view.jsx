@@ -31,7 +31,7 @@ export class ProfileView extends React.Component {
 
     componentDidMount() {
         let accessToken = localStorage.getItem('token');
-        //this.getUserDetails(accessToken);
+        // this.getUserDetails(accessToken);
     }
 
     /* getUserDetails(token) {
@@ -137,6 +137,7 @@ export class ProfileView extends React.Component {
                         </Button>
                     </Modal.Footer>
                 </Modal>
+
                 {/* Card for displaying current user details */}
                 <Card bg="info" text="light" border="light" style={{ marginTop: 10, marginBottom: 10 }}>
                     <Card.Body>
@@ -146,6 +147,7 @@ export class ProfileView extends React.Component {
                         <Card.Text className="profile_heading">Date of Birth: {this.state.userDetails.Birthday}</Card.Text>
                     </Card.Body>
                 </Card>
+
                 {/* Card for displaying the form which will be used to update user details */}
                 <Card bg="secondary" text="light" border="light">
                     <Card.Body>
@@ -190,9 +192,10 @@ export class ProfileView extends React.Component {
                         </Form>
                     </Card.Body>
                 </Card>
+
                 {/* Section for Favorites */}
                 <Card bg="secondary" text="light" border="light" align="center">
-                    <Card.Title className='mt-3'>Your Favourite Movies ({this.state.userDetails.Username}):</Card.Title>
+                    <Card.Title className='mt-3'>Your Favourite Movies {this.state.userDetails.Username}:</Card.Title>
                     <Row style={{ margin: 10 }}>
                         {/* Iterate over the FavoriteMoviesArray and create a MovieCard component for each one */}
 

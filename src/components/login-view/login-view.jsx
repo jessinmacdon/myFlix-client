@@ -12,7 +12,6 @@ import "./login-view.scss";
 export function LoginView(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    //const [userData, setUSerData] = useState('');
 
     //validation declarations 
     const [usernameErr, setUsernameErr] = useState('');

@@ -13,7 +13,7 @@ export class MovieView extends React.Component {
         // Create state variables that will be used to add/remove a movie from a users Favorites list
         this.state = {
             FavouriteMovies: [],
-            userDetails: []
+            userDetails: [],
         }
 
         // to be called by onClick events to 'this'
@@ -35,7 +35,7 @@ export class MovieView extends React.Component {
             // Use the response to set the user details in the state variables
             this.setState({
                 userDetails: response.data,
-                FavouriteMovies: response.data.FavouriteMovies
+                FavouriteMovies: response.data.FavouriteMovies,
             });
         }).catch(function (error) {
             console.log(error);
@@ -93,14 +93,14 @@ export class MovieView extends React.Component {
             <Card bg="secondary" text="light" border="light" >
                 <Card.Body>
                     <Row>
-                        <Col xs={12} md={12}>
+                        <Col className='img-container'>
                             <Card.Img
                                 varient="top"
                                 src={movie.ImagePath}
                                 className="big_image"
                             />
                         </Col>
-                        <Col xs={12} md={12}>
+                        <Col className='details-container'>
                             <Card.Title>
                                 {movie.Title}
                             </Card.Title>

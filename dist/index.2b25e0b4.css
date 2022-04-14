@@ -1,9 +1,9 @@
-#movieCard {
-  margin: 15px auto;
+.container {
+  max-width: 100%;
 }
 
-.main-view {
-  margin-left: 1px;
+.main-container {
+  margin-top: 90px;
 }
 
 .errmsg {
@@ -719,12 +719,12 @@
   margin-left: 2px;
 }
 
-.label {
-  font-weight: 600;
+.img-container {
+  padding-left: 0;
 }
 
-.col-md-8 {
-  margin: auto;
+.details-container {
+  padding: 0px, 15px;
 }
 
 

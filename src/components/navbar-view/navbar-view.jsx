@@ -1,6 +1,5 @@
 import React from 'react';
 
-
 import { Container, Navbar, Nav, Button, Row, Col } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
@@ -31,20 +30,20 @@ export function Navbar(user) {
     };
 
     return (
-        <Navbar bg="dark" variant="dark" className="navBar mb-4">
-            <Container>
-                <Navbar.Brand as={Link} to={"/"} style={{ margin: 10 }}>MyFlix</Navbar.Brand>
-                {isAuth() && (
-                    <Nav className="me-auto">
-                        <Nav.Link as={Link} to={`/users/${Username}`} style={{ margin: 10 }}>{Username}</Nav.Link>
-                        <Button variant="outline-primary" style={{ margin: 10 }} onClick={() => { onLoggedOut() }}>Logout</Button>
-                    </Nav>
-                )}
-            </Container>
-        </Navbar>
+        <>
+            <Navbar bg="primary" variant="dark" className="fixed-top" as={Link} to={"/"} style={{ textDecoration: "none" }}>
+                <Container>
+                    <Navbar.Brand>MYFLIX APP</Navbar.Brand>
+                    {isAuth() && (
+                        <Nav className="me-auto">
+                            <Button variant="success" as={Link} to={`/users/${Username}`} style={{ marginRight: 10, textDecoration: "none" }}>{Username}</Button>
+                            <Button className='logout-btn' variant="secondary" size='sm' onClick={() => { onLoggedOut() }}>Logout</Button>
+                        </Nav>
+                    )}
+                </Container>
+            </Navbar>
+        </>
     )
-
-
 }
 
 
