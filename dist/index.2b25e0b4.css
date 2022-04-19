@@ -4,6 +4,7 @@
 
 .main-container {
   margin-top: 90px;
+  margin-bottom: 40px;
 }
 
 .errmsg {
@@ -726,6 +727,8 @@
 .details-container {
   padding: 0px, 15px;
 }
+
+
 
 
 

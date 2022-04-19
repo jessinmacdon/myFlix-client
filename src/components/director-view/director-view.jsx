@@ -1,47 +1,67 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import './director-view.scss';
 
-import { MovieView } from '../movie-card/movie-card';
-
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
+import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
 
-export function DirectorView(props) {
 
-    return (
-        <React.Fragment key={movie.id}>
-            <Container>
-                <Row>
-                    <Button variant="outline-light" onClick={() => { props.onBackClick() }}>Back</Button>
-                </Row>
+export class DirectorView extends React.Component {
 
-                <Row>
-                    <h1 className="display-4">{props.director.Name}</h1>
-                </Row>
-                <Row>
-                    <span className="value">Birthday: {props.director.Birthday}</span>
-                </Row>
-                <Row>
-                    <span className="value">{props.director.Bio}</span>
-                </Row>
-                <br />
-                <Row>
-                    <h4>Some movies from this director:</h4>
-                </Row>
-                {/* <Row className="justify-content-md-center">
-                {props.movies.filter(m => m.Director.Name === props.director.Name).map(m => (
-                    <Col xs={12} sm={6} md={4} className="d-flex" key={m._id}>
-                        <MovieView movie={m} />
-                    </Col>
-                ))}
-            </Row>*/}
+    render() {
+        const { director, onBackClick } = this.props;
 
-                <Link to={"/"}>
-                    <Button variant="outline-light">Back</Button>
-                </Link>
-            </Container>
-        </React.Fragment>
-    )
+        return (
+            <>
+                <Card>
+                    <Card.Body>
+                        <Card.Title>Director Details</Card.Title>
+                        <Row style={{ maginBottom: 5, marginTop: 5 }}>
+                            <Col med={4} className="director-view text-black">
+                                <div className="director-name" />
+                                <span className="label">Director: </span>
+                                <span className="value">{director.Name}</span>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col med={4} className="director-view text-black">
+                                <div className="director-name" />
+                                <span className="label">Bio: </span><br />
+                                <span className="value">{director.Bio}</span>
+                            </Col>
+                        </Row>
+                        <Row style={{ marginTop: 6 }}>
+                            <Col med={4} className="director-view text-black">
+                                <div className="director-name" />
+                                <span className="label">Birth: </span>
+                                <span className="value">{director.Birth}</span>
+                            </Col>
+                        </Row>
+                        <Row style={{ marginTop: 5 }}>
+                            <Col med={4} className="director-view text-black">
+                                <div className="director-name" />
+                                <span className="label">Death: </span>
+                                <span className="value">{director.Death || "Alive"}</span>
+                            </Col>
+                        </Row>
+                        <Row style={{ marginTop: 10 }}>
+                            <Col>
+
+                                <Button onClick={() => { onBackClick(null); }} variant="danger" >Back</Button>
+
+                            </Col>
+                        </Row>
+                    </Card.Body>
+                </Card>
+            </>
+        );
+    }
 }
+
+DirectorView.propTypes = {
+    director: PropTypes.shape({
+        Name: PropTypes.string.isRequired,
+    }).isRequired,
+    onBackClick: PropTypes.func.isRequired
+};

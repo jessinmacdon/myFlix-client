@@ -8,8 +8,6 @@ export class MovieCard extends React.Component {
     render() {
         const { movie } = this.props;
 
-        console.log("MOVIE CARD")
-
         return (
             <Card className="mb-3" bg="secondary" text="light" border="light" style={{ padding: 0 }}>
                 <Card.Img variant='top' src={movie.ImagePath} />

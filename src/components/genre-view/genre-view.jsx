@@ -1,57 +1,56 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Card, Container } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { MovieCard } from '../movie-card/movie-card';
 
+import { Link } from 'react-router-dom';
 import "./genre-view.scss";
+
+import { Button, Card, Container, Row, Col } from 'react-bootstrap';
+
+
+
 
 
 
 export class GenreView extends React.Component {
     render() {
-        const { Genre, onBackClick, movies } = this.props;
+        const { genre, onBackClick } = this.props;
+
         return (
             <>
-                <Container>
-
-                    <Card bg="secondary" text="light" border="light" align="center">
-                        <Card.Body>
-                            <Card.Title>Genre</Card.Title>
-                            <div className="genre-name">
-                                <span className="label">Name: </span>
-                                <span className="value">{Genre.Name}</span>
-                            </div>
-                            <div className="genre-description">
-                                <span className="label">Description: </span>
-                                <span className="value">{Genre.Description}</span>
-                            </div>
-                            <Link to={'/'}>
-                                <Button onClick={() => onBackClick(null)} variant="dark">Back</Button>
-                            </Link>
-                        </Card.Body>
-                    </Card>
-                    <h1>Order movies in this Genre include: </h1>
-                    <Row className="justify-content-md-center">
-                        {props.movies.filter(m => m.Genre.Name === props.genre.Name).map(m => (
-                            <Col xs={12} sm={6} md={4} className="d-flex" key={m._id}>
-                                <MovieCard movie={m} />
+                <Card className='justify-content-center'>
+                    <Card.Body>
+                        <Card.Title>Genre Details</Card.Title>
+                        <Row style={{ marginTop: 6 }}>
+                            <Col med={4} className="genre-view text-black">
+                                <div className="genre-name" />
+                                <span className="label">Genre: </span>
+                                <span className="value">{genre.Name}</span>
                             </Col>
-                        ))}
-                    </Row>
+                        </Row>
+                        <Row style={{ marginTop: 6 }}>
+                            <Col med={4} className="genre-view text-black">
+                                <div className="genre-description" />
+                                <span className="label">Description: </span><br />
+                                <span className="value">{genre.Description}</span>
+                            </Col>
+                        </Row>
+                        <Row style={{ marginTop: 6 }}>
+                            <Col>
 
-                </Container>
+                                <Button onClick={() => { onBackClick(null); }} variant="danger">Back</Button>
+
+                            </Col>
+                        </Row>
+                    </Card.Body>
+                </Card>
             </>
-        )
-
+        );
     }
-
-
 }
+
 GenreView.propTypes = {
     genre: PropTypes.shape({
-        Name: PropTypes.string,
-        Description: PropTypes.string
-    }),
+        Name: PropTypes.string.isRequired,
+    }).isRequired,
     onBackClick: PropTypes.func.isRequired
 };

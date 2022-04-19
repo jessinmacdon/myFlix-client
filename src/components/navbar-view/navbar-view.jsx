@@ -5,11 +5,9 @@ import { Container, Navbar, Nav, Button, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 export function Navbar(user) {
-    console.log("USER", user)
 
     let Username = 'User';
     if (user.user !== null) {
-        console.log(user)
         Username = user.user.Username;
     }
 
@@ -31,9 +29,9 @@ export function Navbar(user) {
 
     return (
         <>
-            <Navbar bg="primary" variant="dark" className="fixed-top" as={Link} to={"/"} style={{ textDecoration: "none" }}>
+            <Navbar bg="primary" variant="dark" className="fixed-top">
                 <Container>
-                    <Navbar.Brand>MYFLIX APP</Navbar.Brand>
+                    <Navbar.Brand as={Link} to={"/"} style={{ textDecoration: "none" }}>MYFLIX APP</Navbar.Brand>
                     {isAuth() && (
                         <Nav className="me-auto">
                             <Button variant="success" as={Link} to={`/users/${Username}`} style={{ marginRight: 10, textDecoration: "none" }}>{Username}</Button>

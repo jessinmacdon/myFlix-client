@@ -24,22 +24,6 @@ export class MovieView extends React.Component {
     // get the user's details (for displaying whether this movie is in their favourite movis list)
     componentDidMount() {
         let accessToken = localStorage.getItem('token');
-        // this.getUserDetails(accessToken);
-    }
-
-    // get user details from the server
-    getUserDetails(token) {
-        axios.get(`https://macdon-myflix.herokuapp.com/users/${this.props.user.Username}`, {
-            headers: { Authorization: `Bearer ${token}` }
-        }).then(response => {
-            // Use the response to set the user details in the state variables
-            this.setState({
-                userDetails: response.data,
-                FavouriteMovies: response.data.FavouriteMovies,
-            });
-        }).catch(function (error) {
-            console.log(error);
-        });
     }
 
     // post movies to favourites array - add movies to favourites list 
@@ -64,7 +48,6 @@ export class MovieView extends React.Component {
             headers: { Authorization: `Bearer ${token}` }
         })
             .then(() => {
-                console.log("REMOOOVED")
                 this.setState({ isFavouriteNew: false });
                 window.open(`/movies/${this.props.movie._id}`, '_self');
             })
@@ -81,7 +64,6 @@ export class MovieView extends React.Component {
 
         // This section of code sets a flag which will show a add/remove Favourites button depending on if the movie can be found in the users Favourites Array
         let tempArray = user.FavouriteMovies;
-        console.log(tempArray)
         let isFavouriteNew = false
         if (tempArray.includes(this.props.movie._id)) {
             isFavouriteNew = true;
@@ -93,7 +75,7 @@ export class MovieView extends React.Component {
             <Card bg="secondary" text="light" border="light" >
                 <Card.Body>
                     <Row>
-                        <Col className='img-container'>
+                        <Col className='img-container' xs={12} sm={12} md={6} style={{ marginBottom: 20 }}>
                             <Card.Img
                                 varient="top"
                                 src={movie.ImagePath}
@@ -110,15 +92,16 @@ export class MovieView extends React.Component {
                             {movie.Genre.Name && (
                                 <Card.Text className="genre_heading">
                                     <span className="genre_title">Genre: </span>
-                                    <Link style={{ color: 'white' }} to={`genre/${movie.Genre.Name}`}>{movie.Genre.Name}</Link>
+                                    <Link style={{ color: 'white' }} to={`/genre/${movie.Genre.Name}`}>{movie.Genre.Name}</Link>
                                 </Card.Text>
                             )}
                             {movie.Director.Name && (
                                 <Card.Text className="director_heading">
                                     <span className="director_title">Director: </span>
-                                    <Link style={{ color: 'white' }} to={`director/${movie.Director.Name}`}>{movie.Director.Name}</Link>
+                                    <Link style={{ color: 'white' }} to={`/director/${movie.Director.Name}`}>{movie.Director.Name}</Link>
                                 </Card.Text>
                             )}
+
                             <Button onClick={() => onBackClick(null)} variant="light">Back</Button>
 
                             {/* check favourite movies array, if movie is included show remove from favourites list if not show add to favourites list */}
@@ -131,11 +114,10 @@ export class MovieView extends React.Component {
                                     Add to Favourites
                                 </Button>
                             )}
-
                         </Col>
                     </Row>
                 </Card.Body>
-            </Card>
+            </Card >
         );
     }
 }

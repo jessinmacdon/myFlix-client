@@ -27,17 +27,17 @@ export function LoginView(props) {
     const validate = () => {
         let isReq = true;
         if (!username) {
-            setUsernameErr('Username Required');
+            setUsernameErr('Username required. Please type in your username');
             isReq = false;
         } else if (username.length < 6) {
-            setUsernameErr('Username must be 6 characters long');
+            notify('Please check your username. Your username must be at least 6 characters long');
             isReq = false;
         }
         if (!password) {
-            setPasswordErr('Password Required');
+            setPasswordErr('Password required. Please type in your password');
             isReq = false;
         } else if (password.length < 8) {
-            setPassword('Password must be 8 characters long');
+            notify('Password must be 8 characters long');
             isReq = false;
         }
 
@@ -59,18 +59,14 @@ export function LoginView(props) {
                     props.onLoggedIn(data);
                 })
                 .catch(e => {
-                    // if (error.response) {
-                    // setLoginErr(error.response.data);
-                    setLoginErr('Login unsuccessful, please check you login credentials');
                     notify('Login unsuccessful, please check you login credentials and try again');
-                    console.log('no such user')
                 });
         }
     };
 
     return (
         <div className="login-view">
-            <Container fluid style={{ padding: 'auto' }} className="xs{12} sm{12} md{3} lg{4}">
+            <Container fluid style={{ padding: 'auto' }} className="xs{12} sm{12} md{12} lg{12}">
                 <Row>
                     <Col>
                         <ToastContainer />
@@ -82,21 +78,39 @@ export function LoginView(props) {
                                         <Form.Group controlId="formUsername" className="mb-3 mt-2">
                                             <Form.Label>Username:</Form.Label>
                                             <Form.Control type="text" onChange={e => setUsername(e.target.value)} />
-                                            {usernameErr && <p className='errmsg'>{usernameErr}</p>}
+                                            {usernameErr &&
+                                                <p className='errmsg'>
+                                                    {usernameErr}
+                                                </p>
+                                            }
                                         </Form.Group>
                                         <Form.Group controlId="formPassword" className="mb-3">
                                             <Form.Label>Password:</Form.Label>
                                             <Form.Control type="password" onChange={e => setPassword(e.target.value)} />
-                                            {passwordErr && <p className='errmsg'>{passwordErr}</p>}
+                                            {passwordErr &&
+                                                <p className='errmsg' type='invalid'>
+                                                    {passwordErr}
+                                                </p>
+                                            }
                                         </Form.Group>
                                         <Button className="primary mb-3" type="submit" onClick={handleSubmit}>
                                             Login
                                         </Button>
-                                        {loginErr && <p className='errmsg'>{loginErr}</p>}
+                                        {loginErr &&
+                                            <p className='errmsg'>
+                                                {loginErr}
+                                            </p>
+                                        }
                                     </Form>
                                     <Form.Text style={{ fontSize: 16 }}>You do not have an account yet?
                                         <Link to={`/register`}>
-                                            <Button variant="link" className="signup-btn mt-6" type="Link" style={{ fontSize: 16, color: 'lightblue', padding: 0, marginLeft: 5 }}> Click here to Sign Up!</Button>
+                                            <Button
+                                                variant="link"
+                                                className="signup-btn mt-6"
+                                                type="Link"
+                                                style={{ fontSize: 16, color: 'lightgreen', padding: 0, marginLeft: 5 }}>
+                                                Click here to Sign Up!
+                                            </Button>
                                         </Link>
                                     </Form.Text>
                                 </Card.Body>

@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { Form, Button, Card, CardGroup, Container, Col, Row } from 'react-bootstrap';
 import axios from 'axios';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+
 import "./registration-view.scss"
 
 export function RegistrationView(props) {
@@ -41,6 +44,10 @@ export function RegistrationView(props) {
         return isReq;
     }
 
+    const notify = (msg) => {
+        toast(msg);
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const isReq = validate();
@@ -53,84 +60,81 @@ export function RegistrationView(props) {
             })
                 .then(response => {
                     const data = response.data;
-                    console.log(data);
-                    alert('Registration successful, Click Ok and your will be taken to the login page');
+                    notify('Registration successful, You will be redirected to the homepage');
                     window.open('/', '_self');
                 })
                 .catch(response => {
-                    console.log(response);
-                    setRegisterErr('We\'re unable to create your account. Please check your details and try again');
+                    setRegisterErr('Your chosen username already. Please insert a new username or logIn');
                 });
         }
     };
 
     return (
-        <div className="registration-view xs{12} sm{12} md{3} lg{4}">
-            <Container fluid style={{ paddingTop: '0.75rem' }}>
-                <Row>
-                    <Col>
-                        <CardGroup>
-                            <Card bg="secondary" text="white" border="light">
-                                <Card.Body>
-                                    <Card.Title>Create an account</Card.Title>
-                                    <Form noValidate >
-                                        <Form.Group className="mb-3">
-                                            <Form.Label> Username: </Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                value={username}
-                                                onChange={e => setUsername(e.target.value)}
-                                                required
-                                                placeholder="Enter a username" />
-                                            {usernameErr && <p className='errmsg'>{usernameErr}</p>}
-                                        </Form.Group>
-                                        <Form.Group className="mb-3">
-                                            <Form.Label>Password:</Form.Label>
-                                            <Form.Control
-                                                type="password"
-                                                value={password}
-                                                onChange={e => setPassword(e.target.value)}
-                                                required
-                                                minLength="8"
-                                                placeholder="Your password must be at least 8 characters" />
-                                            {passwordErr && <p className='errmsg'>{passwordErr}</p>}
-                                        </Form.Group>
-                                        <Form.Group className="mb-3">
-                                            <Form.Label>Email:</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                value={email}
-                                                onChange={e => setEmail(e.target.value)}
-                                                required
-                                                placeholder="Enter your email" />
-                                            {emailErr && <p className='errmsg'>{emailErr}</p>}
-                                        </Form.Group>
-                                        <Form.Group className="mb-3">
-                                            <Form.Label>Birthdate:</Form.Label>
-                                            <Form.Control
-                                                type="date"
-                                                value={birthday}
-                                                onChange={e => setBirthday(e.target.value)}
-                                                required
-                                                placeholder="Enter your Birthdate" />
-                                        </Form.Group>
-                                        <Button className="primary"
-                                            type="submit"
-                                            onClick={handleSubmit}>
-                                            Sign Up
-                                        </Button>
-                                    </Form>
-                                    {registerErr && <p className='errmsg'>{registerErr}</p>}
-                                </Card.Body>
-                            </Card>
-                        </CardGroup>
-                    </Col>
-                </Row>
-            </Container>
-        </div>
+        <Container fluid style={{ padding: 'auto', margin: 'auto' }} className="justify-cotent-center xs{12} sm{12} md{12} lg{12}">
+            <Row>
+                <Col>
+                    <ToastContainer />
+                    <CardGroup>
+                        <Card bg="secondary" text="white" border="light">
+                            <Card.Body>
+                                <Card.Title>Create an account</Card.Title>
+                                <Form noValidate >
+                                    <Form.Group className="mb-3">
+                                        <Form.Label> Username: </Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            value={username}
+                                            onChange={e => setUsername(e.target.value)}
+                                            required
+                                            placeholder="Enter a username" />
+                                        {usernameErr && <p className='errmsg'>{usernameErr}</p>}
+                                    </Form.Group>
+                                    <Form.Group className="mb-3">
+                                        <Form.Label>Password:</Form.Label>
+                                        <Form.Control
+                                            type="password"
+                                            value={password}
+                                            onChange={e => setPassword(e.target.value)}
+                                            required
+                                            minLength="8"
+                                            placeholder="Your password must be at least 8 characters" />
+                                        {passwordErr && <p className='errmsg'>{passwordErr}</p>}
+                                    </Form.Group>
+                                    <Form.Group className="mb-3">
+                                        <Form.Label>Email:</Form.Label>
+                                        <Form.Control
+                                            type="text"
+                                            value={email}
+                                            onChange={e => setEmail(e.target.value)}
+                                            required
+                                            placeholder="Enter your email" />
+                                        {emailErr && <p className='errmsg'>{emailErr}</p>}
+                                    </Form.Group>
+                                    <Form.Group className="mb-3">
+                                        <Form.Label>Birthdate:</Form.Label>
+                                        <Form.Control
+                                            type="date"
+                                            value={birthday}
+                                            onChange={e => setBirthday(e.target.value)}
+                                            required
+                                            placeholder="Enter your Birthdate" />
+                                    </Form.Group>
+                                    <Button className="primary"
+                                        type="submit"
+                                        onClick={handleSubmit}>
+                                        Sign Up
+                                    </Button>
+                                </Form>
+                                {registerErr && <p className='errmsg'>{registerErr}</p>}
+                            </Card.Body>
+                        </Card>
+                    </CardGroup>
+                </Col>
+            </Row>
+        </Container>
     );
 }
 
-/*RegistrationView.propTypes = {
-    onRegistration: PropTypes.func.isRequired,
-};*/
+RegistrationView.propTypes = {
+    onRegistration: PropTypes.func,
+};

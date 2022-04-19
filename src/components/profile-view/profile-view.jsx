@@ -5,6 +5,9 @@ import { Button, Card, Col, Form, Row, Modal, Container } from 'react-bootstrap'
 import { MovieCard } from '../movie-card/movie-card';
 import '../profile-view/profile-view.scss';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
+
 
 
 export class ProfileView extends React.Component {
@@ -26,27 +29,23 @@ export class ProfileView extends React.Component {
         this.showModal = this.showModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.deleteUserDetails = this.deleteUserDetails.bind(this);
+
+        const notify = (msg) => {
+            toast(msg);
+        }
     }
 
 
     componentDidMount() {
         let accessToken = localStorage.getItem('token');
-        // this.getUserDetails(accessToken);
+        this.setState({
+            Username: this.props.user.Username,
+            Password: this.props.user.Password,
+            Email: this.props.user.Email,
+            Birthday: this.props.user.Birthday,
+        });
     }
 
-    /* getUserDetails(token) {
-         axios.get(`https://macdon-myflix.herokuapp.com/users/${this.props.user}`, {
-             headers: { Authorization: `Bearer ${token}` }
-         }).then(response => {
-             console.log(response.data)
-             this.setState({
-                 userDetails: response.data,
-                 FavouriteMovies: response.data.FavouriteMovies
-             });
-         }).catch(function (error) {
-             console.log(error);
-         });
-     };*/
 
     updateUserDetails(e) {
         const form = e.currentTarget.parentNode;
@@ -76,10 +75,11 @@ export class ProfileView extends React.Component {
                 // Reload the page to make sure that the user can immediately start using their new details
                 window.open('/users/${data.Username}', '_self');
             }).catch(error => {
-                console.log('error updating user details')
+                console.log(error)
             });
         }
     };
+
     handleFieldChange(event) {
         let { name, value } = event.target;
         this.setState({ [name]: value })
@@ -102,15 +102,22 @@ export class ProfileView extends React.Component {
             headers: { Authorization: `Bearer ${token}` }
         }).then(response => {
             const data = response.data;
-            alert(user + " has been deleted");
+
+            const notify = (msg) => {
+                toast(msg);
+            }
+
+            notify(user + " has been deleted");
+
             // Remove the user details and auth token from localStorage, reroute to login page
             localStorage.removeItem('user');
             localStorage.removeItem('token');
             window.open('/', '_self');
         }).catch(error => {
-            console.log('error deleting the user');
+            console.log(error);
         })
     }
+
 
     // Render function to display items on the DOM
     render() {
@@ -118,10 +125,10 @@ export class ProfileView extends React.Component {
         const { user, movies, onBackClick } = this.props;
         // Filter the movies array (obtained from props) and only save those movies which match ID's from the list of the users Favorites
         const FavouriteMoviesArray = movies.filter(movie => user.FavouriteMovies.includes(movie._id));
-        console.log("TEMP", FavouriteMoviesArray)
 
         return (
-            <div className="profile_view">
+            <Container className="profile_view">
+                <ToastContainer />
                 {/* Modal specifications which will display when attempting to delete a user */}
                 <Modal show={this.state.modalState} onHide={this.closeModal}>
                     <Modal.Header closeButton>
@@ -142,9 +149,9 @@ export class ProfileView extends React.Component {
                 <Card bg="info" text="light" border="light" style={{ marginTop: 10, marginBottom: 10 }}>
                     <Card.Body>
                         <Card.Title className="text-center">Profile details</Card.Title>
-                        <Card.Text >Username: {this.state.userDetails.Username}</Card.Text>
-                        <Card.Text className="profile_heading">Email: {this.state.userDetails.Email}</Card.Text>
-                        <Card.Text className="profile_heading">Date of Birth: {this.state.userDetails.Birthday}</Card.Text>
+                        <Card.Text >Username: {user.Username}</Card.Text>
+                        <Card.Text className="profile_heading">Email: {user.Email}</Card.Text>
+                        <Card.Text className="profile_heading">Date of Birth: {user.Birthday}</Card.Text>
                     </Card.Body>
                 </Card>
 
@@ -153,30 +160,30 @@ export class ProfileView extends React.Component {
                     <Card.Body>
                         <Card.Title className="text-center">Update Profile Details</Card.Title>
                         {/* validated is then used as part of Bootstraps validation process */}
-                        <Form noValidate validated={this.state.validated}>
+                        <Form validated={this.state.validated}>
                             <Form.Group controlId="updateFormUsername">
                                 <Form.Label>Username:</Form.Label>
                                 {/* When the input is changed, call handleFieldChange to update the state variables as required */}
-                                <Form.Control name="Username" type="text" onChange={this.handleFieldChange} required />
+                                <Form.Control name="Username" type="text" onChange={this.handleFieldChange} value={this.state.Username} required />
                                 {/* Validation message which will only display on failed validation */}
                                 <Form.Control.Feedback type="invalid">Please enter a username</Form.Control.Feedback>
                             </Form.Group>
 
                             <Form.Group controlId="updateFormPassword">
                                 <Form.Label>Password:</Form.Label>
-                                <Form.Control name="Password" type="password" onChange={this.handleFieldChange} required />
+                                <Form.Control name="Password" type="password" onChange={this.handleFieldChange} value={this.state.Password} required />
                                 <Form.Control.Feedback type="invalid">Please enter a password</Form.Control.Feedback>
                             </Form.Group>
 
                             <Form.Group controlId="updateFormEmail">
                                 <Form.Label>Email:</Form.Label>
-                                <Form.Control name="email" type="email" onChange={this.handleFieldChange} required />
+                                <Form.Control name="email" type="email" onChange={this.handleFieldChange} value={this.state.Email} required />
                                 <Form.Control.Feedback type="invalid">Please enter a valid email address</Form.Control.Feedback>
                             </Form.Group>
 
                             <Form.Group controlId="updateDateOfBirth">
                                 <Form.Label>Date of Birth:</Form.Label>
-                                <Form.Control name="Birthdate" type="date" onChange={this.handleFieldChange} />
+                                <Form.Control name="Birthdate" type="date" onChange={this.handleFieldChange} value={this.state.Birthday} />
                             </Form.Group>
 
                             {/* Button for updating the details which will call updateUserDetails (defined above) */}
@@ -205,7 +212,7 @@ export class ProfileView extends React.Component {
                             </Col>))}
                     </Row>
                 </Card>
-            </div>
+            </Container>
         );
     }
 }
