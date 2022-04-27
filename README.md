@@ -17,6 +17,7 @@ Tools used: This app was built using HTML5, SCSS, and JavaScript ES6 languages.
 - Parcel 
 - React
 - redux
+- React-Bootstrap
 
 ## Usage
 
