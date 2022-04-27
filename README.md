@@ -4,18 +4,20 @@ This client the front-end of the myFlix application. It provide users with acces
 
 
 User Goals
-Users should be able to :
+### Users should be able to :
 
-retrieve information on movies, directors, actors and genres
-create and update their user profile
-create and edit a list of favourite movies
+- retrieve information on movies, directors, actors and genres
+- create and update their user profile
+- create and edit a list of favourite movies
 
-About
+## About
+
 Tools used: This app was built using HTML5, SCSS, and JavaScript ES6 languages. 
 
 - Parcel 
 - React
 - redux
 
-Usage
+## Usage
+
 Just download the code and enjoy @ http://localhost:1234/ 
