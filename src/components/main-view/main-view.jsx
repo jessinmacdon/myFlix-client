@@ -1,33 +1,46 @@
 import React from 'react';
 import axios from 'axios';
 
+import { connect } from 'react-redux';
+
 import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
 
 import { Container, Row, Col } from 'react-bootstrap';
 import '../main-view/main-view.scss';
 
+import { setMovies, setUser } from '../../actions/actions';
 //import { Link } from 'react-router-dom';
+
+import MoviesList from '../movies-list/movies-list';
 
 import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view';
-import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 import { GenreView } from '../genre-view/genre-view';
 import { DirectorView } from '../director-view/director-view';
 import { ProfileView } from '../profile-view/profile-view';
 import { Navbar } from '../navbar-view/navbar-view'
 
-export class MainView extends React.Component {
+class MainView extends React.Component {
 
     constructor() {
         super();
         // Initial state is set to null
         this.state = {
-            movies: [],
-            selectedMovie: null,
             user: null,
             favouriteMovies: [],
         };
+    }
+
+    componentDidMount() {
+        let accessToken = localStorage.getItem('token');
+        const username = localStorage.getItem('user');
+
+        if (accessToken !== null) {
+
+            this.getMovies(accessToken);
+            this.getUser(username, accessToken);
+        }
     }
 
     //https://macdon-myflix.herokuapp.com/movies //http://localhost:8080/movies
@@ -36,9 +49,8 @@ export class MainView extends React.Component {
             headers: { Authorization: `Bearer ${token}` }
         })
             .then(response => {
-                this.setState({
-                    movies: response.data
-                });
+                // Assign the result to the movies props
+                this.props.setMovies(response.data);
             })
             .catch(error => {
                 console.log(error);
@@ -57,17 +69,6 @@ export class MainView extends React.Component {
             .catch(error => {
                 console.log(error);
             });
-    }
-
-    componentDidMount() {
-        let accessToken = localStorage.getItem('token');
-        const username = localStorage.getItem('user');
-
-        if (accessToken !== null) {
-
-            this.getMovies(accessToken);
-            this.getUser(username, accessToken);
-        }
     }
 
     /*When a movie is clicked, this function is invoked and updates the state of the `selectedMovie` *property to that movie*/
@@ -106,7 +107,8 @@ export class MainView extends React.Component {
 
 
     render() {
-        const { movies, user } = this.state;
+        let { movies } = this.props;
+        let { user } = this.state;
 
 
         return (
@@ -124,12 +126,8 @@ export class MainView extends React.Component {
                             );
 
                             if (movies.length === 0) return <div className="main-view" />;
-
-                            return movies.map(m => (
-                                <Col className="justify-content-center" xs={12} sm={12} md={4} lg={3} key={m._id}>
-                                    <MovieCard movie={m} />
-                                </Col>
-                            ))
+                            // #6
+                            return <MoviesList movies={movies} />
                         }} />
 
                         <Route path="/movies/:movieId" render={({ match, history }) => {
@@ -220,3 +218,11 @@ export class MainView extends React.Component {
     }
 }
 
+let mapStateToProps = state => {
+    return {
+        movies: state.movies,
+        user: state.user,
+    }
+}
+
+export default connect(mapStateToProps, { setMovies, setUser })(MainView);

@@ -5,6 +5,9 @@ import { Button, Card, Col, Form, Row, Modal, Container } from 'react-bootstrap'
 import { MovieCard } from '../movie-card/movie-card';
 import '../profile-view/profile-view.scss';
 
+import { connect } from 'react-redux';
+import { setUser } from '../../actions/actions';
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 
@@ -164,26 +167,26 @@ export class ProfileView extends React.Component {
                             <Form.Group controlId="updateFormUsername">
                                 <Form.Label>Username:</Form.Label>
                                 {/* When the input is changed, call handleFieldChange to update the state variables as required */}
-                                <Form.Control name="Username" type="text" onChange={this.handleFieldChange} value={this.state.Username} required />
+                                <Form.Control name="Username" type="text" onChange={this.handleFieldChange} placeholder={this.state.Username} required />
                                 {/* Validation message which will only display on failed validation */}
                                 <Form.Control.Feedback type="invalid">Please enter a username</Form.Control.Feedback>
                             </Form.Group>
 
                             <Form.Group controlId="updateFormPassword">
                                 <Form.Label>Password:</Form.Label>
-                                <Form.Control name="Password" type="password" onChange={this.handleFieldChange} value={this.state.Password} required />
+                                <Form.Control name="Password" type="password" onChange={this.handleFieldChange} placeholder='****************' required />
                                 <Form.Control.Feedback type="invalid">Please enter a password</Form.Control.Feedback>
                             </Form.Group>
 
                             <Form.Group controlId="updateFormEmail">
                                 <Form.Label>Email:</Form.Label>
-                                <Form.Control name="email" type="email" onChange={this.handleFieldChange} value={this.state.Email} required />
+                                <Form.Control name="email" type="email" onChange={this.handleFieldChange} placeholder={this.state.Email} required />
                                 <Form.Control.Feedback type="invalid">Please enter a valid email address</Form.Control.Feedback>
                             </Form.Group>
 
                             <Form.Group controlId="updateDateOfBirth">
                                 <Form.Label>Date of Birth:</Form.Label>
-                                <Form.Control name="Birthdate" type="date" onChange={this.handleFieldChange} value={this.state.Birthday} />
+                                <Form.Control name="Birthdate" type="date" onChange={this.handleFieldChange} placeholder={this.state.Birthday} />
                             </Form.Group>
 
                             {/* Button for updating the details which will call updateUserDetails (defined above) */}
