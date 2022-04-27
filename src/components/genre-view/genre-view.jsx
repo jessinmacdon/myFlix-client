@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import "./genre-view.scss";
 
-import { Button, Card, Container, Row, Col } from 'react-bootstrap';
+import { Button, Card, Row, Col } from 'react-bootstrap';
 
 
 
