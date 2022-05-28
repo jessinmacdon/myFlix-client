@@ -125,7 +125,7 @@ git clone https://github.com/F3NJ0/movie_api.git
 parcel src/index.html
 `
 
---
+---
 ### Technical Requirements (following the CF project brief)
 
 - SPA application built using React
