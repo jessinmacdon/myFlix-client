@@ -3,8 +3,8 @@
 ## Description
 This client the front-end of the myFlix application. It provide users with access to information about different movies, directors, actors and genres. Users will be able to sign up, update their personal information, and create a list of their favorite movies.
 
-What technology usage and why?
-Tools used: This app was built using HTML5, SCSS, and JavaScript ES6 languages.
+### What technology usage and why?
+This app was built using HTML5, SCSS, and JavaScript ES6 languages.
 
 Parcel
 React
