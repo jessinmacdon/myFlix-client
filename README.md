@@ -100,11 +100,11 @@ the solution was to remove the @oarcel/transformer-sass:^2.4.1 from the package.
 - Parcel build process threw error, which was solved by adding type="module" to script tag in index.html
 - add to package.json
 
-`
+```
 "start": "parcel", // parcel watch + dev server
 "watch": "parcel watch", // parcel build + automatic reload
 "build": "parcel build"
-`
+```
 
 - There is a new version of react-router-dom (6.3.0) which differs significantly from the version used by CF (v.5.3.0). I had to downgrade to the older version in order to be able to follow the directions provided by CF for routing between the views.
 
