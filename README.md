@@ -115,9 +115,9 @@ the solution was to remove the @oarcel/transformer-sass:^2.4.1 from the package.
 
 1. Clone or download repository ...
 
-`
-git clone https://github.com/F3NJ0/movie_api.git
-`
+``
+https://github.com/jessinmacdon/myFlix-client.git
+``
 
 2. Run parcel to build
 
