@@ -82,18 +82,18 @@ in 2021 React 18 introduced a new root API, namely ReactDOM.createRoot. It is no
 *Project setup:* 
 In the package.json the entry point may not be "main", because main is used as the output file of the build. Instead define the source code for the library as follows:
 
-`
+```
 "source": "src/index.html"
-`
+```
 
 Use index.html as entry point for build process: parcel src/index.html
 
 *Parcel:*
 The command parcel src/index.html threw an error, saying
 
-`
+```
 @parcel/package-manager: Could not find module "@parcel/transformer-sass" satisfying 2.0.0-rc.0
-`
+```
 
 the solution was to remove the @oarcel/transformer-sass:^2.4.1 from the package.json, deleting node-modules and package-lock.json file and then run npm install. As a result the version 2.0.0-rc.0 was installed and added as a dependencies.
 
@@ -115,15 +115,15 @@ the solution was to remove the @oarcel/transformer-sass:^2.4.1 from the package.
 
 1. Clone or download repository ...
 
-``
+```
 https://github.com/jessinmacdon/myFlix-client.git
-``
+```
 
 2. Run parcel to build
 
-`
+```
 parcel src/index.html
-`
+```
 
 ---
 ### Technical Requirements (following the CF project brief)
