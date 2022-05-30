@@ -3,9 +3,9 @@
 This will display the three images side by side if the images are not too wide.
 
 <p float="left">
-  <img src="src/img/mobile-look-1.png" width="300" />
-  <img src="src/img/mobile-look-2.png" width="300" /> 
-  <img src="src/img/mobile-look-3.png" width="300" /> 
+  <img src="src/img/mobile-look-1.png" width="250" />
+  <img src="src/img/mobile-look-2.png" width="250" /> 
+  <img src="src/img/mobile-look-3.png" width="250" /> 
 </P>
 
 
