@@ -1,7 +1,6 @@
 # myFlix Client
 
-This will display the three images side by side if the images are not too wide.
-
+This is how it will look on mobile (tested on pixel5)
 <p float="left">
   <img src="src/img/mobile-look-1.png" width="270" />
   <img src="src/img/mobile-look-2.png" width="270" /> 
