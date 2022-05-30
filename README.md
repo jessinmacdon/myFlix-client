@@ -3,10 +3,12 @@
 This will display the three images side by side if the images are not too wide.
 
 <p float="left">
-  <img src="src/img/mobile-look-1.png" width="100" />
-  <img src="src/img/mobile-look-2.png" width="100" /> 
-  <img src="src/img/mobile-look-3.png" width="100" /> 
+  <img src="src/img/mobile-look-1.png" width="300" />
+  <img src="src/img/mobile-look-2.png" width="300" /> 
+  <img src="src/img/mobile-look-3.png" width="300" /> 
 </P>
+
+
 ## Description
 This client the front-end of the myFlix application. It provide users with access to information about different movies, directors, actors and genres. Users will be able to sign up, update their personal information, and create a list of their favorite movies.
 
@@ -167,3 +169,7 @@ This App will be hosted on Netlity at a later point - updates to come.
 --
 
 ![View of the web app on desktop](src/img/desktop-look-1.png)
+
+![View of the web app on desktop](src/img/desktop-look-2.png)
+
+
