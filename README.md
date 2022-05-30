@@ -1,6 +1,7 @@
 # myFlix Client
 
 This is how it will look on mobile (tested on pixel5)
+
 <p float="left">
   <img src="src/img/mobile-look-1.png" width="270" />
   <img src="src/img/mobile-look-2.png" width="270" /> 
