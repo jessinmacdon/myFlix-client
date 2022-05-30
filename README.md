@@ -170,6 +170,10 @@ This App will be hosted on Netlity at a later point - updates to come.
 
 ![View of the web app on desktop](src/img/desktop-look-1.png)
 
+
 ![View of the web app on desktop](src/img/desktop-look-2.png)
+
+
+![View of the web app on desktop](src/img/desktop-look-3.png)
 
 
