@@ -166,7 +166,8 @@ Same for favorite movies
 
 This App will be hosted on Netlity at a later point - updates to come.
 
---
+---
+This is how it will look on bigger screens (desktops)
 
 ![View of the web app on desktop](src/img/desktop-look-1.png)
 
